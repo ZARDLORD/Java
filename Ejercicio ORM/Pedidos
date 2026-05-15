@@ -1,0 +1,45 @@
+import jakarta.persistence.*;
+import java.time.LocalDate;
+
+@Entity
+public class Pedidos{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    @Basic
+    private String productos;
+    private LocalDate fechaPedido;
+    private int costo;
+    @ManyToOne
+    @JoinColumn(name = "usuario_Id")
+    Usuario usuario;
+
+    public Pedidos(int costo, LocalDate FechaPedido, String productos){
+        this.costo = costo;
+        fechaPedido = FechaPedido;
+        this.productos = productos;
+    }
+    public String getProductos() {
+        return productos;
+    }
+
+    public void setProductos(String productos) {
+        this.productos = productos;
+    }
+
+    public LocalDate getFechaPedido() {
+        return fechaPedido;
+    }
+
+    public void setFechaPedido(LocalDate fechaPedido) {
+        fechaPedido = fechaPedido;
+    }
+
+    public int getCosto() {
+        return costo;
+    }
+
+    public void setCosto(int costo) {
+        this.costo = costo;
+    }
+}
