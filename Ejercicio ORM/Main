@@ -1,0 +1,17 @@
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
+
+
+import javax.swing.text.html.parser.Entity;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+        EntityManagerFactory fem = Persistence.createEntityManagerFactory("my_sql");
+        EntityManager em = fem.createEntityManager();
+    }
+}
