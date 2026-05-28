@@ -1,0 +1,142 @@
+package org.example;
+
+import java.util.List;
+import java.util.Random;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        // 1. Iniciamos nuestro gestor de persistencia personalizado
+        EntityManager manager = new EntityManager();
+        manager.conectar();
+
+        // 2. Insertamos alimentos iniciales si la base de datos está vacía
+        inicializarAlimentos(manager);
+
+        Scanner scanner = new Scanner(System.in);
+        Random random = new Random();
+
+        // 3. Buscamos al Pou en la base de datos (usaremos el ID 1 por defecto)
+        Pou miPou = manager.buscarPou(1);
+
+        if (miPou == null) {
+            System.out.println("--- ¡Bienvenido a tu nuevo juego de POU con ORM! ---");
+            System.out.print("Introduce el nombre de tu amiguito: ");
+            String nombre = scanner.nextLine();
+            miPou = new Pou(nombre);
+            manager.guardarPou(miPou);
+            System.out.println("¡" + miPou.getNombre() + " ha sido creado con éxito!");
+        } else {
+            System.out.println("¡Bienvenido de vuelta! Cargando los datos de " + miPou.getNombre() + "...");
+        }
+
+        // 4. Bucle principal del juego
+        boolean jugando = true;
+        while (jugando) {
+            System.out.println("\n========================================");
+            System.out.println(" ESTADO ACTUAL DE " + miPou.getNombre().toUpperCase());
+            System.out.println("========================================");
+            System.out.println("🍔 Hambre: " + miPou.getHambre() + "/100 (0 es lleno)");
+            System.out.println("😊 Felicidad: " + miPou.getFelicidad() + "/100");
+            System.out.println("🧼 Suciedad: " + miPou.getSuciedad() + "/100");
+            System.out.println("⚡ Energía: " + miPou.getEnergia() + "/100");
+            System.out.println("========================================");
+            System.out.println("MENÚ DE ACCIONES:");
+            System.out.println("1. Dar de comer");
+            System.out.println("2. Bañar");
+            System.out.println("3. Jugar");
+            System.out.println("4. Dormir");
+            System.out.println("5. Acariciar");
+            System.out.println("6. Guardar y Salir");
+            System.out.print("Selecciona una opción: ");
+
+            int opcion = scanner.nextInt();
+
+            // Regla del Profesor: 20% de probabilidad de que el Pou no obedezca (excepto si decide Salir)
+            if (opcion >= 1 && opcion <= 5) {
+                if (random.nextInt(100) < 20) { // Genera un número de 0 a 99
+                    System.out.println("\n❌ ¡" + miPou.getNombre() + " se encaprichó y NO quiere obedecer!");
+                    System.out.println("Reprendes a tu Pou. Su felicidad baja en 10 puntos.");
+                    miPou.setFelicidad(miPou.getFelicidad() - 10);
+                    manager.actualizarPou(miPou); // Guarda el castigo en la BD
+                    continue; // Salta el resto del turno y vuelve a mostrar el menú
+                }
+            }
+
+            switch (opcion) {
+                case 1: // Dar de comer
+                    List<Alimento> alimentos = manager.obtenerTodosLosAlimentos()   ; // Corrección automática si cambias el nombre en la BD
+                    System.out.println("\n--- Alimentos Disponibles ---");
+                    for (int i = 0; i < alimentos.size(); i++) {
+                        Alimento a = alimentos.get(i);
+                        System.out.println((i + 1) + ". " + a.getNombre() + " (Quita " + a.getRestaHambre() + " hambre, +" + a.getAportaSuciedad() + " suciedad)");
+                    }
+                    System.out.print("¿Qué alimento deseas darle?: ");
+                    int eleccionAlimento = scanner.nextInt();
+
+                    if (eleccionAlimento > 0 && eleccionAlimento <= alimentos.size()) {
+                        Alimento seleccionado = alimentos.get(eleccionAlimento - 1);
+                        // Aplicamos los atributos del alimento al Pou
+                        miPou.setHambre(miPou.getHambre() - seleccionado.getRestaHambre());
+                        miPou.setEnergia(miPou.getEnergia() + seleccionado.getAportaEnergia());
+                        miPou.setFelicidad(miPou.getFelicidad() + seleccionado.getAportaFelicidad());
+                        miPou.setSuciedad(miPou.getSuciedad() + seleccionado.getAportaSuciedad());
+                        System.out.println("✨ Le diste de comer " + seleccionado.getNombre() + ".");
+                    } else {
+                        System.out.println("Opción inválida.");
+                    }
+                    break;
+
+                case 2: // Bañar
+                    System.out.println("\n🧼 Bañaste a tu Pou. ¡Ahora está reluciente!");
+                    miPou.setSuciedad(0);
+                    miPou.setFelicidad(miPou.getFelicidad() + 5);
+                    break;
+
+                case 3: // Jugar (Regla del profesor: baja 20 en todo y sube 15 felicidad)
+                    System.out.println("\n⚽ Jugaste un rato al fútbol con tu Pou.");
+                    miPou.setHambre(miPou.getHambre() + 20); // Subir hambre significa que tiene más necesidad de comer
+                    miPou.setEnergia(miPou.getEnergia() - 20);
+                    miPou.setSuciedad(miPou.getSuciedad() + 20);
+                    miPou.setFelicidad(miPou.getFelicidad() + 15);
+                    break;
+
+                case 4: // Dormir
+                    System.out.println("\n💤 Tu Pou durmió una siesta reparadora.");
+                    miPou.setEnergia(100);
+                    miPou.setHambre(miPou.getHambre() + 15); // Despierta con un poco de hambre
+                    break;
+
+                case 5: // Acariciar
+                    System.out.println("\n❤️ Acariciaste a tu Pou. Se siente muy querido.");
+                    miPou.setFelicidad(miPou.getFelicidad() + 10);
+                    break;
+
+                case 6: // Guardar y Salir
+                    System.out.println("\n💾 Guardando partida de " + miPou.getNombre() + "... ¡Hasta la próxima!");
+                    jugando = false;
+                    break;
+
+                default:
+                    System.out.println("Opción no válida.");
+            }
+
+            // Sincronizamos los cambios con MySQL al final de cada acción exitosa
+            manager.actualizarPou(miPou);
+        }
+
+        // 5. Rompemos conexión de forma limpia al terminar el juego
+        scanner.close();
+        manager.desconectar();
+    }
+
+    // Método auxiliar para registrar comida si la base de datos se inicia por primera vez
+    private static void inicializarAlimentos(EntityManager manager) {
+        if (manager.obtenerTodosLosAlimentos().isEmpty()) {
+            manager.registrarAlimento(new Alimento("Manzana", 5, 5, 2, 20));
+            manager.registrarAlimento(new Alimento("Hamburguesa", 20, 25, 15, 45));
+            manager.registrarAlimento(new Alimento("Caramelo", 2, 15, 5, 5));
+            manager.registrarAlimento(new Alimento("Pizza", 15, 20, 10, 35));
+        }
+    }
+}
