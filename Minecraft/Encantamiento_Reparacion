@@ -1,0 +1,5 @@
+public class Encantamiento_Reparacion extends Encantamiento{
+    public Encantamiento_Reparacion(){
+        super(70,"Reparacion",1,30);
+    }
+}
