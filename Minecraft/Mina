@@ -1,0 +1,15 @@
+/*MINA:
+Se podrá minar en diferentes profundidades cada una subiendo la dificultad y la rareza de los
+materiales a obtener:
+- Entre capa 60 a 40 no aparecen mobs pero solo aparece hierro y carbón (el carbón
+aparece con un 20% de posibilidad, el hierro con un 5% y el lapis con 1%)
+- Entre capa 40 y 15 hay un 10% de posiblididad de encontrarte con un mob (que te sacara
+1 y 2 muslito) y empieza a aparecer redstone y oro (el carbón aparece con un 10%, el hierro
+con un 10%, el lapis y redstone con un 5%, el oro con un 3%)
+- Entre capa 15 y 5 hay un 15% de posibilidad de encontrarse con un mob (que te sacara
+entre 2 y 3 muslitos) y aparece diamante y esmeralda (el hierro con un 10%, el lapis y redstone
+con un 10%, el oro con un 5% y la esmeralda y diamante con un 3%)
+ */
+public class Mina {
+    private int capa, dificultad,rareza;
+}
