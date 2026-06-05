@@ -1,0 +1,16 @@
+public class Inventario{
+    private int[] Inventario = new int[32];
+    private int[] Stacks = new int[32];
+
+    public Inventario(String[] inventario, int[] stacks) {
+        this.Inventario[0]=270;
+        this.Stacks[0]=1;
+
+        this.Inventario[1]=388;
+        this.Stacks[1]=5;
+    }
+    public int[] getInventario() {return Inventario;}
+    public void setInventario(int[] inventario) {Inventario = inventario;}
+    public int[] getStacks() {return Stacks;}
+    public void setStacks(int[] stacks) {Stacks = stacks;}
+}
