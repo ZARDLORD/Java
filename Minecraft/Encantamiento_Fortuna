@@ -1,0 +1,5 @@
+public class Encantamiento_Fortuna extends Encantamiento{
+    public Encantamiento_Fortuna(){
+        super(35,"Fortuna",3,30);
+    }
+}
