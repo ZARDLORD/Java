@@ -1,0 +1,38 @@
+public class Objeto {
+    private int ID,MaxStack;
+    private String Nombre;
+
+    public Objeto(int ID, int maxStack, String nombre) {
+        this.ID = ID;
+        MaxStack = maxStack;
+        Nombre = nombre;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
+    public int getMaxStack() {
+        return MaxStack;
+    }
+
+    public void setMaxStack(int maxStack) {
+        MaxStack = maxStack;
+    }
+
+    public String getNombre() {
+        return Nombre;
+    }
+
+    public void setNombre(String nombre) {
+        Nombre = nombre;
+    }
+
+    public void Durabilidad(){
+
+    }
+}
