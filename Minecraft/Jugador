@@ -1,0 +1,23 @@
+public class Jugador {
+    private String UUID, Nombre;
+    private int Experiencia;
+    private float Muslitos = 10.0f;
+    private Inventario inventario;
+
+    public Jugador(String UUID, String nombre, int experiencia, float muslitos, Inventario inventario) {
+        this.UUID = UUID;
+        Nombre = nombre;
+        Experiencia = experiencia;
+        Muslitos = muslitos;
+    }
+    public String getUUID() {return UUID;}
+    public void setUUID(String UUID) {this.UUID = UUID;}
+    public String getNombre() {return Nombre;}
+    public void setNombre(String nombre) {Nombre = nombre;}
+    public int getExperiencia() {return Experiencia;}
+    public void setExperiencia(int experiencia) {Experiencia = experiencia;}
+    public float getMuslitos() {return Muslitos;}
+    public void setMuslitos(float muslitos) {Muslitos = muslitos;}
+    public Inventario getInventario() {return inventario;}
+    public void setInventario(Inventario inventario) {this.inventario = inventario;}
+}
