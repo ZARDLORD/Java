@@ -1,0 +1,16 @@
+public class Aldeano {
+    private String ID,Profesion;
+
+    public Aldeano(){}
+    public Aldeano(String profesion, String ID) {
+        Profesion = profesion;
+        this.ID = ID;
+    }
+    public String getID() {return ID;}
+    public void setID(String ID) {this.ID = ID;}
+    public String getProfesion() {return Profesion;}
+    public void setProfesion(String profesion) {Profesion = profesion;}
+
+    public void Tradeo(){
+    }
+}
