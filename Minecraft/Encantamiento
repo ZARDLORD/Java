@@ -13,6 +13,9 @@ public class Encantamiento {
         this.nivel = nivel;
         this.coste = coste;
     }
+    Encantamiento reparacion = new Encantamiento(70, "Reparacion", 1, 30);
+    Encantamiento Fortuna = new Encantamiento(35, "Fortuna", 3, 30);
+    Encantamiento Irrompibilidad = new Encantamiento(34, "Irrompibilidad", 3, 30);
 
     public int getId() {
         return id;
