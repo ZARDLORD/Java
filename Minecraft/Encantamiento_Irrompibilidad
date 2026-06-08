@@ -1,5 +1,0 @@
-public class Encantamiento_Irrompibilidad extends Encantamiento{
-    public Encantamiento_Irrompibilidad(){
-        super(34,"Irrompibilidad",3,30);
-    }
-}
