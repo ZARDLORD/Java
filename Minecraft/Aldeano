@@ -1,16 +1,40 @@
 public class Aldeano {
-    private String ID,Profesion;
+    private String ID = "villager";
+    private String Profesion, tipo;
+    private int nivel;
 
-    public Aldeano(){}
-    public Aldeano(String profesion, String ID) {
+    public Aldeano() {
+    }
+
+    public Aldeano(String ID, String profesion, String tipo, int nivel) {
         Profesion = profesion;
         this.ID = ID;
+        this.tipo = tipo;
+        this.nivel = nivel;
     }
-    public String getID() {return ID;}
-    public void setID(String ID) {this.ID = ID;}
-    public String getProfesion() {return Profesion;}
-    public void setProfesion(String profesion) {Profesion = profesion;}
 
-    public void Tradeo(){
+    Aldeano Clerigo = new Aldeano(ID, "Clerigo", "Plains", 0);
+    Aldeano Comerciante = new Aldeano(ID, "Comerciante", "Plains", 0); // vende esmeraldas
+    Aldeano Granjero = new Aldeano(ID, "Clerigo", "Plains", 0);
+    Aldeano HerreroA = new Aldeano(ID, "HerreroA", "Plains", 0);
+    Aldeano HerreroH = new Aldeano(ID, "HerreroH", "Plains", 0);
+
+    public String getID() {
+        return ID;
+    }
+
+    public void setID(String ID) {
+        this.ID = ID;
+    }
+
+    public String getProfesion() {
+        return Profesion;
+    }
+
+    public void setProfesion(String profesion) {
+        Profesion = profesion;
+    }
+
+    public void Tradeo() {
     }
 }
