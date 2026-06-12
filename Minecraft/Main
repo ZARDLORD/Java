@@ -1,29 +1,36 @@
 import java.util.Scanner;
+import java.util.Stack;
 
 public class Main {
 
+    static Util util = new Util();
     static Scanner read = new Scanner(System.in);
-    static Jugador Steve;
+    static Jugador Steve = new Jugador("A001","Steve",0,10f,new Inventario());
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         Menu();
 
     }
-    public static void IngresarDatos()
-    {
-        if (Steve.getNombre().length()<1)
-        {
-            System.out.println("Antes de jugar Minecraft 2, ingrese su nombre de usuario");
+
+    public static void IngresarDatos() {
+        if (Steve.getNombre()==null|| Steve.getNombre().equals("Steve")) {
+            System.out.println("Antes de jugar Minecraft 2, ingrese su nombre de usuario:");
             Steve.setNombre(read.next());
         }
     }
-    public static void Menu()
-    {
+
+    public static void Menu() {
+        int opcionmenu=0;
         IngresarDatos();
+        Steve.getInventario();
         do {
             System.out.println("\u001B[32m /// MINECRAFT 2 \\\\\\ por: ZARDLORD_");
-            System.out.println();
-        }while (true);
+            System.out.println("Bienvenido " + Steve.getNombre());
+            System.out.println("1) Ir a la mina");
+            System.out.println("2) Ir a la aldea");
+            System.out.println("3) Dormir");
+            System.out.println("4) Salir");
+            util.VerificarInt(opcionmenu);
+        } while (opcionmenu!=4);
     }
 }
