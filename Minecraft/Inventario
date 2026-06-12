@@ -1,16 +1,41 @@
-public class Inventario{
-    private int[] Inventario = new int[32];
-    private int[] Stacks = new int[32];
+public class Inventario {
+    private int[] Espacios;
+    private int[] Stacks;
+    private int Indice;
 
-    public Inventario(String[] inventario, int[] stacks) {
-        this.Inventario[0]=270;
-        this.Stacks[0]=1;
+    public Inventario() {
+       this.Indice=2;
+       this.Espacios=new int [36];
+       this.Stacks=new int [36];
 
-        this.Inventario[1]=388;
-        this.Stacks[1]=5;
+        this.Espacios[0] = 270;
+        this.Stacks[0] = 1;
+
+        this.Espacios[1] = 388;
+        this.Stacks[1] = 5;
     }
-    public int[] getInventario() {return Inventario;}
-    public void setInventario(int[] inventario) {Inventario = inventario;}
-    public int[] getStacks() {return Stacks;}
-    public void setStacks(int[] stacks) {Stacks = stacks;}
+
+    public int[] getEspacios() {
+        return Espacios;
+    }
+
+    public void setEspacios(int[] espacios) {
+        Espacios = espacios;
+    }
+
+    public int[] getStacks() {
+        return Stacks;
+    }
+
+    public void setStacks(int[] stacks) {
+        Stacks = stacks;
+    }
+    public void AgregarItem(int iditem, int cantidad){
+        if (Indice<Espacios.length){
+            this.Espacios[Indice]=iditem;
+            this.Stacks[Indice]=cantidad;
+            Indice++;
+            System.out.println("Item guardado");
+        }else {System.out.println("El inventario esta lleno");}
+    }
 }
