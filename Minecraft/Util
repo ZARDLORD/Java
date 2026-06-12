@@ -1,0 +1,20 @@
+import java.util.Scanner;
+
+public class Util {
+    static Scanner read = new Scanner(System.in);
+    public int VerificarInt(int x) {
+        while (true){
+        try {
+                String variable = read.nextLine();
+                int numero = Integer.parseInt(variable);
+                return numero;
+
+            } catch (Exception e) {
+                System.out.println("Error al ingresar la opcio, vuelva a ingresarla: ");
+            }
+        }
+    }
+
+    void main() {
+    }
+}
