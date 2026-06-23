@@ -1,41 +1,95 @@
-public class Inventario {
-    private int[] Espacios;
+public class Inventario{
+    private Objeto[] Espacios;
     private int[] Stacks;
     private int Indice;
 
     public Inventario() {
-       this.Indice=2;
-       this.Espacios=new int [36];
-       this.Stacks=new int [36];
-
-        this.Espacios[0] = 270;
-        this.Stacks[0] = 1;
-
-        this.Espacios[1] = 388;
-        this.Stacks[1] = 5;
+        this.Indice=0;
+        this.Espacios=new Objeto[36];
+        this.Stacks=new int [36];
     }
-
-    public int[] getEspacios() {
-        return Espacios;
-    }
-
-    public void setEspacios(int[] espacios) {
+    public Objeto[] getEspacios() {return Espacios;}
+    public void setEspacios(Objeto[] espacios) {
         Espacios = espacios;
     }
-
     public int[] getStacks() {
         return Stacks;
     }
-
     public void setStacks(int[] stacks) {
         Stacks = stacks;
     }
-    public void AgregarItem(int iditem, int cantidad){
-        if (Indice<Espacios.length){
-            this.Espacios[Indice]=iditem;
-            this.Stacks[Indice]=cantidad;
+
+    public void AgregarItem(Objeto item, int cantidad) {
+        // Primero busca si ya existe
+        for (int i = 0; i < Indice; i++) {
+            if (Espacios[i].getID() == item.getID()) {
+                Stacks[i] += cantidad;
+                System.out.println("+" + cantidad + " " + item.getNombre()
+                        + " (total: " + Stacks[i] + ")");
+                return; // ya lo encontró, no sigue
+            }
+        }
+
+        // Si no lo encontró, agrega en un espacio nuevo
+        if (Indice < Espacios.length) {
+            Espacios[Indice] = item;
+            Stacks[Indice] = cantidad;
             Indice++;
-            System.out.println("Item guardado");
-        }else {System.out.println("El inventario esta lleno");}
+            System.out.println("+" + cantidad + " " + item.getNombre());
+        } else {
+            System.out.println("El inventario esta lleno");
+        }
+    }
+    public int getSize(){
+        return Indice;
+    }
+    public Objeto_Herramienta BuscarHerramienta(){
+        for (int i =0;i<Indice;i++)
+        {
+            if (Espacios[i] instanceof Objeto_Herramienta){return (Objeto_Herramienta) Espacios[i];}
+        }
+        return null;
+    }
+    public Objeto_Armadura BuscarArmadura() {
+        for (int i = 0; i < Indice; i++) {
+            if (Espacios[i] instanceof Objeto_Armadura) {
+                return (Objeto_Armadura) Espacios[i];
+            }
+        }
+        return null;
+    }
+    public int BuscarCantidad(int IDitem) {
+        for (int i = 0; i < Indice; i++) {
+            if (Espacios[i].getID() == IDitem) {
+                return Stacks[i];
+            }
+        }
+        return 0; // no tiene ese item
+    }
+    public void EliminarItem(Objeto item) {
+        for (int i = 0; i < Indice; i++) {
+            if (Espacios[i].getID() == item.getID()) {
+                // Corre todos los elementos una posicion hacia atras
+                for (int j = i; j < Indice - 1; j++) {
+                    Espacios[j] = Espacios[j + 1];
+                    Stacks[j] = Stacks[j + 1];
+                }
+                Espacios[Indice - 1] = null;
+                Stacks[Indice - 1] = 0;
+                Indice--;
+                return;
+            }
+        }
+    }
+    public void DescontarItem(int IDitem, int cantidad) {
+        for (int i = 0; i < Indice; i++) {
+            if (Espacios[i].getID() == IDitem) {
+                Stacks[i] -= cantidad;
+                if (Stacks[i] <= 0) {
+                    EliminarItem(Espacios[i]);
+                }
+                return;
+            }
+        }
     }
 }
