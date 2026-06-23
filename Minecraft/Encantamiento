@@ -1,51 +1,22 @@
-/*ENCANTAMIENTOS
-Encantar una herramienta cuesta entre 10 y 30 niveles de experiencia (el jugador acumula
-orbes de experiencia, cada nivel del 1 al 10 cuesta 5 orbes, entre el 10 y el 20 cuesta 10 orbes,
-entre el 20 y 30 cuestan 15 orbes y a partir de ahí cada nivel cuesta un exponencial de 2)
- */
 public class Encantamiento {
     private String nombre;
-    private int id, nivel, coste;
+    private int id, nivel, nivelMax;
 
-    public Encantamiento(int id, String nombre, int nivel, int coste) {
+    public Encantamiento(int id, String nombre, int nivelMax) {
         this.id = id;
         this.nombre = nombre;
-        this.nivel = nivel;
-        this.coste = coste;
-    }
-    Encantamiento reparacion = new Encantamiento(70, "Reparacion", 1, 30);
-    Encantamiento Fortuna = new Encantamiento(35, "Fortuna", 3, 30);
-    Encantamiento Irrompibilidad = new Encantamiento(34, "Irrompibilidad", 3, 30);
-
-    public int getId() {
-        return id;
+        this.nivel = 1;
+        this.nivelMax = nivelMax;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void SubirNivel() {
+        if (nivel < nivelMax) nivel++;
     }
 
-    public String getNombre() {
-        return nombre;
-    }
+    public boolean EstaAlMax() { return nivel >= nivelMax; }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public int getNivel() {
-        return nivel;
-    }
-
-    public void setNivel(int nivel) {
-        this.nivel = nivel;
-    }
-
-    public int getCoste() {
-        return coste;
-    }
-
-    public void setCoste(int coste) {
-        this.coste = coste;
-    }
+    public int getId() { return id; }
+    public String getNombre() { return nombre; }
+    public int getNivel() { return nivel; }
+    public int getNivelMax() { return nivelMax; }
 }
