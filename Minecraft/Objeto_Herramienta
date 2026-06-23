@@ -1,0 +1,84 @@
+import java.util.ArrayList;
+
+public class Objeto_Herramienta extends Objeto {
+    private int UsosTotales;
+    private int UsosRestantes;
+    private int[] mineralesPermitidos;
+    private ArrayList<Encantamiento> encantamientos;
+
+    public Objeto_Herramienta(int ID, int maxStack, String nombre, int usosT, int usosR, int[] mineralesPermitidos) {
+        super(ID, maxStack, nombre);
+        this.UsosTotales = usosT;
+        this.UsosRestantes = usosR;
+        this.mineralesPermitidos = mineralesPermitidos;
+        this.encantamientos = new ArrayList<>();
+    }
+    // Metodos fabrica, cada uno crea una instancia nueva
+    public static Objeto_Herramienta NuevoPicoMadera() {return new Objeto_Herramienta(270, 1, "Pico de Madera",   60,   60,   new int[]{263,1});}
+    public static Objeto_Herramienta NuevoPicoPiedra() {return new Objeto_Herramienta(274, 1, "Pico de Piedra",   132,  132,  new int[]{263,1, 15, 351});}
+    public static Objeto_Herramienta NuevoPicoHierro() {return new Objeto_Herramienta(257, 1, "Pico de Hierro",   251,  251,  new int[]{263,1, 14, 351, 331, 15, 264, 388});}
+    public static Objeto_Herramienta NuevoPicoDiamante() {return new Objeto_Herramienta(278, 1, "Pico de Diamante", 1562, 1562, new int[]{263,1, 14, 351, 331, 15, 264, 388});    }
+    public int getUsosTotales() {return UsosTotales;}
+    public void setUsosTotales(int usosTotales) {this.UsosTotales = usosTotales;}
+    public int[] getMineralesPermitidos() { return mineralesPermitidos; }
+    public int getUsosRestantes() {return UsosRestantes;}
+    public void setUsosRestantes(int usosRestantes) {UsosRestantes = usosRestantes;}
+
+    // Busca un encantamiento por ID, devuelve null si no lo tiene
+    public Encantamiento BuscarEncantamiento(int id) {
+        for (Encantamiento e : encantamientos) {
+            if (e.getId() == id) return e;
+        }
+        return null;
+    }
+
+    // Agrega o sube de nivel si ya existe
+    public void AgregarEncantamiento(Encantamiento nuevo) {
+        Encantamiento existente = BuscarEncantamiento(nuevo.getId());
+        if (existente != null) {
+            if (!existente.EstaAlMax()) {
+                existente.SubirNivel();
+                System.out.println(existente.getNombre() + " subio a nivel " + existente.getNivel());
+            } else {
+                System.out.println(existente.getNombre() + " ya esta al maximo");
+            }
+        } else {
+            encantamientos.add(nuevo);
+            System.out.println("Obtuviste " + nuevo.getNombre() + " nivel " + nuevo.getNivel());
+        }
+    }
+
+    public void AplicarIrrompibilidad() {
+        Encantamiento irr = BuscarEncantamiento(34);
+        if (irr != null) {
+            int bonus = (int)(UsosTotales * 0.05 * irr.getNivel());
+            UsosTotales += bonus;
+            UsosRestantes += bonus;
+        }
+    }
+
+    public boolean TieneReparacion() {
+        return BuscarEncantamiento(70) != null;
+    }
+
+    public int getNivelFortuna() {
+        Encantamiento fortuna = BuscarEncantamiento(35);
+        return fortuna != null ? fortuna.getNivel() : 0;
+    }
+
+    public ArrayList<Encantamiento> getEncantamientos() { return encantamientos; }
+
+    public boolean PuedeRomper(int IDmineral) {
+        for (int id : mineralesPermitidos) {
+            if (id == IDmineral) return true;
+        }
+        return false;
+    }
+    public void Usar(){
+        if (getUsosTotales()>0){
+            UsosRestantes--;}}
+    public boolean EstaRoto()
+    {
+        return UsosRestantes <=0;
+    }
+}
