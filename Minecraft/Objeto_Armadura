@@ -1,0 +1,15 @@
+public class Objeto_Armadura extends Objeto {
+    private int reduccionMobs;
+
+    public Objeto_Armadura(int ID, int maxStack, String nombre, int reduccionMobs) {
+        super(ID, maxStack, nombre);
+        this.reduccionMobs = reduccionMobs;
+    }
+
+    public int getReduccionMobs() { return reduccionMobs; }
+
+    public static Objeto_Armadura NuevaArmaduraOro()      { return new Objeto_Armadura(310, 1, "Armadura de Oro",       5);  }
+    public static Objeto_Armadura NuevaArmaduraHierro()   { return new Objeto_Armadura(311, 1, "Armadura de Hierro",    20); }
+    public static Objeto_Armadura NuevaArmaduraDiamante() { return new Objeto_Armadura(312, 1, "Armadura de Diamante",  50); }
+    public static Objeto_Armadura NuevaArmaduraNetherite(){ return new Objeto_Armadura(313, 1, "Armadura de Netherite", 100);}
+}
