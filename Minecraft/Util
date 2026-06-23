@@ -2,19 +2,30 @@ import java.util.Scanner;
 
 public class Util {
     static Scanner read = new Scanner(System.in);
-    public int VerificarInt(int x) {
+    public static int VerificarInt(String x) {
+        String variable = x;
         while (true){
-        try {
-                String variable = read.nextLine();
+            try {
                 int numero = Integer.parseInt(variable);
                 return numero;
 
             } catch (Exception e) {
-                System.out.println("Error al ingresar la opcio, vuelva a ingresarla: ");
+                System.out.println("Error al ingresar la opcion, vuelva a ingresarla: ");variable=read.next();
             }
         }
     }
+    public static boolean VerificacionSN(String x){
+        while (true){
+            try {
+                if (x.toUpperCase().equals("N")){return false;}
+                else if (x.toUpperCase().equals("S")){return true;}
+                else {System.out.println("Opcion no valida, ingrese S/N");x=read.next();}
 
+            } catch (Exception e) {
+                System.out.println("Error al ingresar la opcion, vuelva a ingresarla: ");
+            }
+        }
+    }
     void main() {
     }
 }
