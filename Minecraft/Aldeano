@@ -1,23 +1,22 @@
+import java.util.Scanner;
+
 public class Aldeano {
     private String ID = "villager";
     private String Profesion, tipo;
-    private int nivel;
 
     public Aldeano() {
     }
 
-    public Aldeano(String ID, String profesion, String tipo, int nivel) {
+    public Aldeano(String ID, String profesion) {
         Profesion = profesion;
         this.ID = ID;
-        this.tipo = tipo;
-        this.nivel = nivel;
     }
 
-    Aldeano Clerigo = new Aldeano(ID, "Clerigo", "Plains", 0);
-    Aldeano Comerciante = new Aldeano(ID, "Comerciante", "Plains", 0); // vende esmeraldas
-    Aldeano Granjero = new Aldeano(ID, "Clerigo", "Plains", 0);
-    Aldeano HerreroA = new Aldeano(ID, "HerreroA", "Plains", 0);
-    Aldeano HerreroH = new Aldeano(ID, "HerreroH", "Plains", 0);
+    Aldeano Clerigo = new Aldeano(ID, "Clerigo");
+    Aldeano Comerciante = new Aldeano(ID, "Comerciante"); // vende esmeraldas
+    Aldeano Granjero = new Aldeano(ID, "Clerigo");
+    Aldeano HerreroA = new Aldeano(ID, "HerreroA");
+    Aldeano HerreroH = new Aldeano(ID, "HerreroH");
 
     public String getID() {
         return ID;
@@ -36,5 +35,223 @@ public class Aldeano {
     }
 
     public void Tradeo() {
+    }
+    static Scanner read = new Scanner(System.in);
+    public static void Comerciante(Jugador Steve) {
+        int opcion = 0;
+        do {
+            System.out.println("=== COMERCIANTE ==="
+                    + "\n¿Que quieres vender?"
+                    + "\n1) Hierro   (4 hierro = 1 esmeralda)"
+                    + "\n2) Carbon   (6 carbon = 1 esmeralda)"
+                    + "\n3) Oro      (2 oro = 1 esmeralda)"
+                    + "\n4) Diamante (1 diamante = 1 esmeralda)"
+                    + "\n5) Piedra   (20 piedra = 1 esmeralda)"
+                    + "\n6) Irse");
+            opcion = Util.VerificarInt(read.next());
+
+            int IDitem = 0, cantidadPorEsmeralda = 0;
+            Objeto itemAVender = null;
+
+            switch (opcion) {
+                case 1: IDitem = 265; cantidadPorEsmeralda = 4;  itemAVender = Objeto.HIERRO;   break;
+                case 2: IDitem = 263; cantidadPorEsmeralda = 6;  itemAVender = Objeto.CARBON;   break;
+                case 3: IDitem = 266; cantidadPorEsmeralda = 2;  itemAVender = Objeto.ORO;      break;
+                case 4: IDitem = 264; cantidadPorEsmeralda = 1;  itemAVender = Objeto.DIAMANTE; break;
+                case 5: IDitem = 1;   cantidadPorEsmeralda = 20; itemAVender = Objeto.PIEDRA;   break;
+                case 6: System.out.println("Hasta luego"); break;
+                default: System.out.println("Opcion no valida"); continue;
+            }
+
+            if (opcion == 6) break;
+
+            int cantidadDisponible = Steve.getInventario().BuscarCantidad(IDitem);
+            if (cantidadDisponible < cantidadPorEsmeralda) {
+                System.out.println("No tienes suficiente " + itemAVender.getNombre()
+                        + " (necesitas " + cantidadPorEsmeralda + ", tenes " + cantidadDisponible + ")");
+                continue;
+            }
+
+            int esmeraldasAGanar = cantidadDisponible / cantidadPorEsmeralda;
+            int itemsADescontar = esmeraldasAGanar * cantidadPorEsmeralda;
+
+            Steve.getInventario().DescontarItem(IDitem, itemsADescontar);
+            Steve.getInventario().AgregarItem(Objeto.ESMERALDA, esmeraldasAGanar);
+            System.out.println("Vendiste " + itemsADescontar + "x " + itemAVender.getNombre()
+                    + " y obtuviste " + esmeraldasAGanar + " esmeraldas");
+
+        } while (true);
+    }
+    public static void Granjero(Jugador Steve) {
+        int opcion = 0;
+        do {
+            int esmeraldas = Steve.getInventario().BuscarCantidad(388);
+            System.out.println("=== GRANJERO === (Esmeraldas: " + esmeraldas + ")"
+                    + "\n¿Que quieres comprar?"
+                    + "\n1) 2x Pan            (3 esmeraldas, +2 muslitos c/u)"
+                    + "\n2) 4x Sandia         (1 esmeralda, +0.5 muslitos c/u)"
+                    + "\n3) Zanahoria de Oro  (5 esmeraldas, +6 muslitos)"
+                    + "\n4) Irse");
+            opcion = Util.VerificarInt(read.next());
+
+            switch (opcion) {
+                case 1:
+                    if (esmeraldas < 3) { System.out.println("No tienes suficientes esmeraldas"); break; }
+                    Steve.getInventario().DescontarItem(388, 3);
+                    Steve.getInventario().AgregarItem(Objeto.PAN, 2);
+                    System.out.println("Compraste 2x Pan");
+                    break;
+
+                case 2:
+                    if (esmeraldas < 1) { System.out.println("No tienes suficientes esmeraldas"); break; }
+                    Steve.getInventario().DescontarItem(388, 1);
+                    Steve.getInventario().AgregarItem(Objeto.SANDIA, 4);
+                    System.out.println("Compraste 4x Sandia");
+                    break;
+
+                case 3:
+                    if (esmeraldas < 5) { System.out.println("No tienes suficientes esmeraldas"); break; }
+                    Steve.getInventario().DescontarItem(388, 5);
+                    Steve.getInventario().AgregarItem(Objeto.ZANAHORIA_ORO, 1);
+                    System.out.println("Compraste 1x Zanahoria de Oro");
+                    break;
+
+                case 4: System.out.println("Hasta luego"); break;
+                default: System.out.println("Opcion no valida"); break;
+            }
+        } while (opcion != 4);
+    }
+    public static void Clerigo(Jugador Steve) {
+        int opcion = 0;
+        do {
+            int lapis    = Steve.getInventario().BuscarCantidad(351);
+            int redstone = Steve.getInventario().BuscarCantidad(331);
+            System.out.println("=== CLERIGO ==="
+                    + "\nLapis: " + lapis + " | Redstone: " + redstone
+                    + "\n¿Que quieres vender?"
+                    + "\n1) 32x Lapis    (2 esmeraldas)"
+                    + "\n2) 32x Redstone (1 esmeralda)"
+                    + "\n3) Irse");
+            opcion = Util.VerificarInt(read.next());
+
+            switch (opcion) {
+                case 1:
+                    if (lapis < 32) {
+                        System.out.println("No tienes suficiente Lapis (tenes " + lapis + ", necesitas 32)"); break;
+                    }
+                    Steve.getInventario().DescontarItem(351, 32);
+                    Steve.getInventario().AgregarItem(Objeto.ESMERALDA, 2);
+                    System.out.println("Vendiste 32x Lapis y obtuviste 2 esmeraldas");
+                    break;
+
+                case 2:
+                    if (redstone < 32) {
+                        System.out.println("No tienes suficiente Redstone (tenes " + redstone + ", necesitas 32)"); break;
+                    }
+                    Steve.getInventario().DescontarItem(331, 32);
+                    Steve.getInventario().AgregarItem(Objeto.ESMERALDA, 1);
+                    System.out.println("Vendiste 32x Redstone y obtuviste 1 esmeralda");
+                    break;
+
+                case 3: System.out.println("Hasta luego"); break;
+                default: System.out.println("Opcion no valida"); break;
+            }
+        } while (opcion != 3);
+    }
+    public static void HerreroHerramientas(Jugador Steve) {
+        int opcion = 0;
+        do {
+            int esmeraldas = Steve.getInventario().BuscarCantidad(388);
+            Objeto_Herramienta picoActual = Steve.getInventario().BuscarHerramienta();
+            System.out.println("=== HERRERO DE HERRAMIENTAS ==="
+                    + "\nEsmeraldas: " + esmeraldas
+                    + "\nPico actual: " + (picoActual != null ? picoActual.getNombre()
+                                                                + " (" + picoActual.getUsosRestantes() + "/" + picoActual.getUsosTotales() + ")" : "Ninguno")
+                    + "\n1) Pico de Piedra   (6 esmeraldas)"
+                    + "\n2) Pico de Hierro   (12 esmeraldas)"
+                    + "\n3) Pico de Diamante (20 esmeraldas)"
+                    + "\n4) Irse");
+            opcion = Util.VerificarInt(read.next());
+
+            int costo = 0;
+            Objeto_Herramienta picoNuevo = null;
+
+            switch (opcion) {
+                case 1: costo = 6;  picoNuevo = Objeto_Herramienta.NuevoPicoPiedra();   break;
+                case 2: costo = 12; picoNuevo = Objeto_Herramienta.NuevoPicoHierro();   break;
+                case 3: costo = 20; picoNuevo = Objeto_Herramienta.NuevoPicoDiamante(); break;
+                case 4: System.out.println("Hasta luego"); break;
+                default: System.out.println("Opcion no valida"); break;
+            }
+
+            if (opcion == 4) break;
+            if (picoNuevo == null) continue;
+
+            if (esmeraldas < costo) {
+                System.out.println("No tienes suficientes esmeraldas (necesitas " + costo + ", tenes " + esmeraldas + ")");
+                continue;
+            }
+
+            // Tirar pico anterior si hay uno
+            if (picoActual != null) {
+                System.out.println("Quieres tirar tu " + picoActual.getNombre() + " para comprar el nuevo? (S/N)");
+                if (!Util.VerificacionSN(read.next())) { continue; }
+                Steve.getInventario().EliminarItem(picoActual);
+                System.out.println("Tiraste tu " + picoActual.getNombre());
+            }
+
+            Steve.getInventario().DescontarItem(388, costo);
+            Steve.getInventario().AgregarItem(picoNuevo, 1);
+            System.out.println("Compraste " + picoNuevo.getNombre());
+
+        } while (true);
+    }
+    public static void HerreroArmaduras(Jugador Steve) {
+        int opcion = 0;
+        do {
+            int esmeraldas = Steve.getInventario().BuscarCantidad(388);
+            Objeto_Armadura armaduraActual = Steve.getInventario().BuscarArmadura();
+            System.out.println("=== HERRERO DE ARMADURAS ==="
+                    + "\nEsmeraldas: " + esmeraldas
+                    + "\nArmadura actual: " + (armaduraActual != null ? armaduraActual.getNombre() : "Ninguna")
+                    + "\n1) Armadura de Oro      (12 esmeraldas, -5% mobs)"
+                    + "\n2) Armadura de Hierro   (20 esmeraldas, -20% mobs)"
+                    + "\n3) Armadura de Diamante (30 esmeraldas, -50% mobs)"
+                    + "\n4) Armadura de Netherite(50 esmeraldas, sin mobs)"
+                    + "\n5) Irse");
+            opcion = Util.VerificarInt(read.next());
+
+            int costo = 0;
+            Objeto_Armadura armaduraNueva = null;
+
+            switch (opcion) {
+                case 1: costo = 12; armaduraNueva = Objeto_Armadura.NuevaArmaduraOro();       break;
+                case 2: costo = 20; armaduraNueva = Objeto_Armadura.NuevaArmaduraHierro();    break;
+                case 3: costo = 30; armaduraNueva = Objeto_Armadura.NuevaArmaduraDiamante();  break;
+                case 4: costo = 50; armaduraNueva = Objeto_Armadura.NuevaArmaduraNetherite(); break;
+                case 5: System.out.println("Hasta luego"); break;
+                default: System.out.println("Opcion no valida"); break;
+            }
+
+            if (opcion == 5) break;
+            if (armaduraNueva == null) continue;
+
+            if (esmeraldas < costo) {
+                System.out.println("No tienes suficientes esmeraldas (necesitas " + costo + ", tenes " + esmeraldas + ")");
+                continue;
+            }
+
+            // Reemplazar armadura si ya tiene una
+            if (armaduraActual != null) {
+                System.out.println("Quieres reemplazar tu " + armaduraActual.getNombre() + "? (S/N)");
+                if (!Util.VerificacionSN(read.next())) { continue; }
+                Steve.getInventario().EliminarItem(armaduraActual);
+            }
+
+            Steve.getInventario().DescontarItem(388, costo);
+            Steve.getInventario().AgregarItem(armaduraNueva, 1);
+            System.out.println("Compraste " + armaduraNueva.getNombre());
+
+        } while (true);
     }
 }
