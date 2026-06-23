@@ -1,0 +1,9 @@
+public class Objeto_Comida extends Objeto {
+    private float muslitosQueRecupera;
+    public Objeto_Comida(int ID, int maxStack, String nombre, float muslitosQueRecupera) {
+        super(ID, maxStack, nombre);
+        this.muslitosQueRecupera = muslitosQueRecupera;
+    }
+
+    public float getMuslitosQueRecupera() { return muslitosQueRecupera; }
+}
