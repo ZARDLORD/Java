@@ -4,107 +4,63 @@ import java.util.Stack;
 
 public class Main {
 
-    static Scanner read = new Scanner(System.in);
-    static Inventario inv = new Inventario();
-    static Mina cueva = new Mina();
-    static boolean FueACueva = false;
-    static Jugador Steve = new Jugador("A001","Steve",0,10f,inv);
+    static Scanner read = new Scanner(System.in); //Leer variables
+    static Inventario inv = new Inventario();     //Usado para iniciar la variable "Steve"
+    static Mina cueva = new Mina();               //Iniciar variable cueva de tipo Mina para acceder a sus metodos
+    static boolean FueACueva = false;             //Se usa para validar si el jugador puede dormir (ya que solo lo puede hacer dsp de ir a la mina)
+    static Jugador Steve = new Jugador("A001","Steve",0,10f,inv); //posiblemente es innecesario iniciar la variable ahora
 
     public static void main(String[] args) {
-        Menu();
-
+        Menu();//Se llama a la funcion "Menu"
     }
-    private static void AplicarEncantamiento(Objeto_Herramienta pico, Random random) {
-        int tirada = random.nextInt(3);
-
-        switch (tirada) {
-            case 0: // Irrompibilidad (id=34, max nivel 3)
-                int nivelAnterior = pico.getUsosTotales();
-                pico.AgregarEncantamiento(new Encantamiento(34, "Irrompibilidad", 3));
-                pico.AplicarIrrompibilidad();
-                break;
-            case 1: // Fortuna (id=35, max nivel 3)
-                pico.AgregarEncantamiento(new Encantamiento(35, "Fortuna", 3));
-                break;
-            case 2: // Reparacion (id=70, max nivel 1)
-                pico.AgregarEncantamiento(new Encantamiento(70, "Reparacion", 1));
-                break;
-        }
+    public static void Menu() {
+        int opcionmenu=0;
+        IngresarDatos(); //Darle nombre al jugador y añadir sus items iniciales
+        do {
+            System.out.println("\u001B[32m /// MINECRAFT 2 \\\\\\ por: ZARDLORD_");
+            System.out.println("Bienvenido " + Steve.getNombre()+"\u001B[0m");
+            System.out.println("1) Ir a la mina");
+            System.out.println("2) Ir a la aldea");
+            System.out.println("3) Abrir inventario");
+            System.out.println("4) Encantar pico");
+            System.out.println("5) Salir");
+            opcionmenu = Util.VerificarInt(read.next()); //variable para usar en el menu
+            switch (opcionmenu){
+                case 1:ExplorarMina();break;
+                case 2:ExplorarAldea();break;
+                case 3:AbrirInventario();break;
+                case 4:Encantar();break;
+                default:System.out.println("Error al ingresar la opcion, vuelva a ingresar");break;
+            }
+        } while (opcionmenu!=5);
     }
-
     public static void IngresarDatos() {
         if (Steve.getNombre()==null|| Steve.getNombre().equals("Steve")) {
             System.out.println("Antes de jugar Minecraft 2, ingrese su nombre de usuario:");
             Steve.setNombre(read.next());
         }
+        Steve.getInventario().AgregarItem(Objeto_Herramienta.NuevoPicoMadera(), 1);
+        Steve.getInventario().AgregarItem(Objeto.ESMERALDA,5);
     }
-
+    //El jugador puede realizar estas funciones
     public static void ExplorarMina(){
-        System.out.println("Ingrese la capa de la mina que quiere explorar: ");
+        System.out.println("Ingrese la capa de la mina que quiere explorar: ");//Definir capa y dificultad de la cueva
         int entrada=Util.VerificarInt(read.next());
         cueva.ElegirCapa(entrada);
         cueva.setCapa(entrada);
+
         do {
             Steve.Datos();
             System.out.println("Quieres minar? (S/N)");
-            if (Util.VerificacionSN(read.next()))
+            if (Util.VerificacionSN(read.next())) //Verificacion SN devuelta true o false para asegurar la accion
             {
-                Steve.setMuslitos(Steve.getMuslitos()-cueva.AparecerMob(Steve));
+                Steve.setMuslitos(Steve.getMuslitos()-cueva.AparecerMob(Steve)); //Si el jugador pierde suficiente comida, no puede seguir minando
                 if (Steve.getMuslitos()<=0){System.out.println("Te quedaste sin comida, abandona la mina");break;}
-                cueva.Minar(Steve);}
+                cueva.Minar(Steve);}//Si el jugador sigue teniendo comida, puede seguir minando
             else {break;}
-            FueACueva=true;
+            FueACueva=true;//Ademas se cambia el valor de FueACueva para dsp dejar dormir al jugador
         }while (true);
-    }
-
-    public static void Cocinar() {
-        do {
-            System.out.println("Seleccione la mena que quiere cocinar (0 para salir):");
-            // Mostrar solo las menas disponibles
-            for (int i = 0; i < Steve.getInventario().getSize(); i++) {
-                Objeto item = Steve.getInventario().getEspacios()[i];
-                int cantidad = Steve.getInventario().getStacks()[i];
-                System.out.println((i+1) + ") " + cantidad + "x " + item.getNombre());
-            }
-
-            int espacio = Util.VerificarInt(read.next()) - 1;
-            if (espacio == -1) break;
-
-            if (espacio >= Steve.getInventario().getSize()) {
-                System.out.println("Este espacio no existe"); continue;
-            }
-
-            Objeto item = Steve.getInventario().getEspacios()[espacio];
-            int IDitem = item.getID();
-
-            if (IDitem != 14 && IDitem != 15) {
-                System.out.println("Este item no es una mena"); continue;
-            }
-
-            int posCarbon = -1;
-            for (int i = 0; i < Steve.getInventario().getSize(); i++) {
-                if (Steve.getInventario().getEspacios()[i].getID() == 263) {
-                    posCarbon = i; break;
-                }
-            }
-            if (posCarbon == -1) { System.out.println("No tienes carbon"); continue; }
-
-            int cantidadMena   = Steve.getInventario().getStacks()[espacio];
-            int cantidadCarbon = Steve.getInventario().getStacks()[posCarbon];
-            int maximoPorCarbon = cantidadCarbon * 8;
-            int aCocinar = Math.min(cantidadMena, maximoPorCarbon);
-            int carbonUsado = (int) Math.ceil(aCocinar / 8.0);
-
-            Steve.getInventario().DescontarItem(IDitem, aCocinar);
-            Steve.getInventario().DescontarItem(263, carbonUsado);
-
-            Objeto mineralCocido = (IDitem == 15) ? Objeto.HIERRO : Objeto.ORO;
-            Steve.getInventario().AgregarItem(mineralCocido, aCocinar);
-            System.out.println("Cocinaste " + aCocinar + "x " + mineralCocido.getNombre()
-                    + " usando " + carbonUsado + "x Carbon");
-
-        } while (true);
-    }
+    }//Se definen capa y dificultad de la cueva, el jugador puede minar y perder muslitos, se le da permiso para dormir
     public static void ExplorarAldea(){
         int opcion=0;
         do {
@@ -131,21 +87,14 @@ public class Main {
             }
         }while (opcion!=8);
 
-    }
-
-    public static void Dormir(){
-        if (FueACueva){FueACueva=false;
-        Steve.setMuslitos(Steve.getMuslitos()+2);
-        System.out.println("Haz dormido, recuperaste 2.0 muslitos y ahora tienes "+Steve.getMuslitos() +" muslitos");}
-        else {System.out.println("Para dormir, primero debes explorar una cueva");}
-    }
-
+    }//todas los tradeos con los aldeanos, ademas se puede dormir y se pueden cocinar minerales
     public static void AbrirInventario() {
         System.out.println("=== INVENTARIO ===");
+
         for (int i = 0; i < Steve.getInventario().getSize(); i++) {
             Objeto item = Steve.getInventario().getEspacios()[i];
             int cantidad = Steve.getInventario().getStacks()[i];
-
+            //Herraminetas
             if (item instanceof Objeto_Herramienta) {
                 Objeto_Herramienta herramienta = (Objeto_Herramienta) item;
                 System.out.print((i+1) + ") " + herramienta.getNombre()
@@ -164,7 +113,7 @@ public class Main {
                 System.out.println((i+1) + ") " + cantidad + "x " + item.getNombre());
             }
         }
-
+        //Apartado para los items "seleccionables"
         System.out.println("Selecciona un item (0 para cerrar):");
         int seleccion = Util.VerificarInt(read.next()) - 1;
 
@@ -175,13 +124,14 @@ public class Main {
         }
 
         Objeto itemSeleccionado = Steve.getInventario().getEspacios()[seleccion];
-
+        //Si es comida, se puede comer
         if (itemSeleccionado instanceof Objeto_Comida) {
             Objeto_Comida comida = (Objeto_Comida) itemSeleccionado;
             System.out.println("Quieres comer " + comida.getNombre() + "? (S/N)");
             if (Util.VerificacionSN(read.next())) {
                 Comer(comida);
             }
+            //Si es un mineral, se puede cocinar
         } else if (itemSeleccionado.getID() == 14 || itemSeleccionado.getID() == 15) {
             System.out.println("Quieres cocinar " + itemSeleccionado.getNombre() + "? (S/N)");
             if (Util.VerificacionSN(read.next())) {
@@ -190,15 +140,7 @@ public class Main {
         } else {
             System.out.println(itemSeleccionado.getNombre() + " no tiene ninguna accion disponible");
         }
-    }
-    public static void Comer(Objeto_Comida comida) {
-        float nuevosMuslitos = Steve.getMuslitos() + comida.getMuslitosQueRecupera();
-        Steve.setMuslitos(Math.min(nuevosMuslitos, 10.0f));
-        Steve.getInventario().DescontarItem(comida.getID(), 1);
-        System.out.println("Comiste " + comida.getNombre()
-                + ", muslitos: " + Steve.getMuslitos());
-    }
-
+    }//Muestra todos los items del inventario, si son herramientas, muestra sus usos y encantamientos, ademas se puede comer comida
     public static void Encantar() {
         Objeto_Herramienta pico = Steve.getInventario().BuscarHerramienta();
 
@@ -249,28 +191,84 @@ public class Main {
             }
             System.out.println();
         }
-    }
-    public static void Menu() {
-        int opcionmenu=0;
-        IngresarDatos();
-        Steve.getInventario().AgregarItem(Objeto_Herramienta.NuevoPicoMadera(), 1);
-        Steve.getInventario().AgregarItem(Objeto.ESMERALDA,5);
+    }//Se encantan herramiuentas (picos)
+    //Funciones que se aplican dentro de otras
+    public static void Cocinar() {
         do {
-            System.out.println("\u001B[32m /// MINECRAFT 2 \\\\\\ por: ZARDLORD_");
-            System.out.println("Bienvenido " + Steve.getNombre()+"\u001B[0m");
-            System.out.println("1) Ir a la mina");
-            System.out.println("2) Ir a la aldea");
-            System.out.println("3) Abrir inventario");
-            System.out.println("4) Encantar pico");
-            System.out.println("5) Salir");
-            opcionmenu = Util.VerificarInt(read.next());
-            switch (opcionmenu){
-                case 1:ExplorarMina();break;
-                case 2:ExplorarAldea();break;
-                case 3:AbrirInventario();break;
-                case 4:Encantar();break;
-                default:System.out.println("Error al ingresar la opcion, vuelva a ingresar");break;
+            System.out.println("Seleccione la mena que quiere cocinar (0 para salir):");
+            // Mostrar solo las menas disponibles
+            for (int i = 0; i < Steve.getInventario().getSize(); i++) {
+                Objeto item = Steve.getInventario().getEspacios()[i];
+                int cantidad = Steve.getInventario().getStacks()[i];
+                System.out.println((i+1) + ") " + cantidad + "x " + item.getNombre());
             }
-        } while (opcionmenu!=5);
-    }
+
+            int espacio = Util.VerificarInt(read.next()) - 1;
+            if (espacio == -1) break;
+
+            if (espacio >= Steve.getInventario().getSize()) {
+                System.out.println("Este espacio no existe"); continue;
+            }
+
+            Objeto item = Steve.getInventario().getEspacios()[espacio];
+            int IDitem = item.getID();
+
+            if (IDitem != 14 && IDitem != 15) {
+                System.out.println("Este item no es una mena"); continue;
+            }
+
+            int posCarbon = -1;
+            for (int i = 0; i < Steve.getInventario().getSize(); i++) {
+                if (Steve.getInventario().getEspacios()[i].getID() == 263) {
+                    posCarbon = i; break;
+                }
+            }
+            if (posCarbon == -1) { System.out.println("No tienes carbon"); continue; }
+
+            int cantidadMena   = Steve.getInventario().getStacks()[espacio];
+            int cantidadCarbon = Steve.getInventario().getStacks()[posCarbon];
+            int maximoPorCarbon = cantidadCarbon * 8;
+            int aCocinar = Math.min(cantidadMena, maximoPorCarbon);
+            int carbonUsado = (int) Math.ceil(aCocinar / 8.0);
+
+            Steve.getInventario().DescontarItem(IDitem, aCocinar);
+            Steve.getInventario().DescontarItem(263, carbonUsado);
+
+            Objeto mineralCocido = (IDitem == 15) ? Objeto.HIERRO : Objeto.ORO;
+            Steve.getInventario().AgregarItem(mineralCocido, aCocinar);
+            System.out.println("Cocinaste " + aCocinar + "x " + mineralCocido.getNombre()
+                    + " usando " + carbonUsado + "x Carbon");
+
+        } while (true);
+    }//#Se aplica en ExplorarAldea, sirve para cocinar minerales
+    public static void Comer(Objeto_Comida comida) {
+        float nuevosMuslitos = Steve.getMuslitos() + comida.getMuslitosQueRecupera();
+        Steve.setMuslitos(Math.min(nuevosMuslitos, 10.0f));
+        Steve.getInventario().DescontarItem(comida.getID(), 1);
+        System.out.println("Comiste " + comida.getNombre()
+                + ", muslitos: " + Steve.getMuslitos());
+    }//#Se aplica en AbrirInventario, sirve para comer items
+    private static void AplicarEncantamiento(Objeto_Herramienta pico, Random random) {
+        int tirada = random.nextInt(3);
+
+        switch (tirada) {
+            case 0: // Irrompibilidad (id=34, max nivel 3)
+                int nivelAnterior = pico.getUsosTotales();
+                pico.AgregarEncantamiento(new Encantamiento(34, "Irrompibilidad", 3));
+                pico.AplicarIrrompibilidad();
+                break;
+            case 1: // Fortuna (id=35, max nivel 3)
+                pico.AgregarEncantamiento(new Encantamiento(35, "Fortuna", 3));
+                break;
+            case 2: // Reparacion (id=70, max nivel 1)
+                pico.AgregarEncantamiento(new Encantamiento(70, "Reparacion", 1));
+                break;
+        }
+    }//Se aplica en Encantar, se aplican los encantamientos pertinentes
+    public static void Dormir(){
+        if (FueACueva){FueACueva=false;
+            Steve.setMuslitos(Steve.getMuslitos()+2);
+            System.out.println("Haz dormido, recuperaste 2.0 muslitos y ahora tienes "+Steve.getMuslitos() +" muslitos");}
+        else {System.out.println("Para dormir, primero debes explorar una cueva");}
+    }//Se aplica en ExplorarAldea, regenera comida
 }
