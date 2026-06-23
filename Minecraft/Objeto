@@ -2,6 +2,28 @@ public class Objeto {
     private int ID,MaxStack;
     private String Nombre;
 
+    // Minerales
+    public static final Objeto PIEDRA = new Objeto(1, 64, "Piedra");
+    public static final Objeto CARBON =         new Objeto(263, 64, "Carbon");
+    public static final Objeto MHIERRO =         new Objeto(15, 64, "Mena de hierro");
+    public static final Objeto MORO =            new Objeto(14, 64, "Mena de oro");
+    public static final Objeto HIERRO =         new Objeto(265, 64, "Hierro");
+    public static final Objeto ORO =            new Objeto(266, 64, "Oro");
+    public static final Objeto DIAMANTE =       new Objeto(264, 64, "Diamante");
+    public static final Objeto ESMERALDA =      new Objeto(388, 64, "Esmeralda");
+    public static final Objeto REDSTONE =       new Objeto(331, 64, "Redstone");
+    public static final Objeto LAPIS =          new Objeto(351, 64, "Lapis Lazuli");
+
+    // Comidas
+    public static final Objeto_Comida PAN =            new Objeto_Comida(297, 64, "Pan",2f);
+    public static final Objeto_Comida SANDIA =         new Objeto_Comida(360, 64, "Sandia",0.5f);
+    public static final Objeto_Comida ZANAHORIA_ORO =  new Objeto_Comida(396, 64, "Zanahoria de Oro",6f);
+    //Armaduras
+    public static final Objeto_Armadura ARMADURA_ORO =      new Objeto_Armadura(310, 1, "Armadura de Oro",      5);
+    public static final Objeto_Armadura ARMADURA_HIERRO =   new Objeto_Armadura(311, 1, "Armadura de Hierro",   20);
+    public static final Objeto_Armadura ARMADURA_DIAMANTE = new Objeto_Armadura(312, 1, "Armadura de Diamante", 50);
+    public static final Objeto_Armadura ARMADURA_NETHERITE= new Objeto_Armadura(313, 1, "Armadura de Netherite",100);
+    public Objeto(){}
     public Objeto(int ID, int maxStack, String nombre) {
         this.ID = ID;
         MaxStack = maxStack;
