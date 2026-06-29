@@ -1,0 +1,13 @@
+public class HiloNumerosImpares extends Thread{
+    public HiloNumerosImpares(){System.out.println("Hilo numeros creado");}
+    public void run (){
+        int contador =0;
+        while (true){
+            try {
+                if (contador%2!=0){System.out.println("Numero Impar: "+contador);}
+                Thread.sleep(1000);
+            }catch (Exception e ){System.out.println("Hubo un error");}
+            contador++;
+        }
+    }
+}
