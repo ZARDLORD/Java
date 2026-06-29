@@ -1,0 +1,32 @@
+class HiloCronometro extends Thread{
+    public HiloCronometro(){
+        System.out.println("Hilo cronometro Creado");
+    }
+    static int minutos = 0;
+    int segundos =0;
+    public void run(){
+        try {
+            while (true)
+            {
+//minutos
+                if (segundos==59)
+                {
+                    segundos=0;
+                    minutos+=1;
+                }
+                else
+                {//segundos
+                    segundos+=1;
+                }
+
+                Thread.sleep(1000);
+                if (minutos < 10 && segundos <10){System.out.println("Cronometro: 0"+minutos+":0"+segundos);}
+                else if (minutos <10) {System.out.println("Cronometro: 0"+minutos+":"+segundos);}
+                else if (segundos<10) {System.out.println("Cronometro: "+minutos+":0"+segundos);}
+                else {System.out.println("Cronometro: "+minutos+":"+segundos);}
+            }
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
