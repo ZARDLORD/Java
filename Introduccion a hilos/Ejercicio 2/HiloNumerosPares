@@ -1,0 +1,13 @@
+public class HiloNumerosPares extends Thread{
+    public HiloNumerosPares(){System.out.println("Hilo numeros creado");}
+    public void run (){
+        int contador =0;
+        while (true){
+            try {
+                if (contador%2==0){System.out.println("Numero par: "+contador);}
+                Thread.sleep(1000);
+            }catch (Exception e ){System.out.println("Hubo un error");}
+            contador++;
+        }
+    }
+}
