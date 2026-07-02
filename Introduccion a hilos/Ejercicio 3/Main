@@ -1,0 +1,13 @@
+public static Random random = new Random();
+int FuncionRandom(){
+    int numero = random.nextInt(11);
+    return numero;
+}
+void main() {
+    Descarga1 D1 = new Descarga1();
+    Descarga2 D2 = new Descarga2();
+    Descarga3 D3 = new Descarga3();
+    D1.run();
+    D2.run();
+    D3.run();
+}
