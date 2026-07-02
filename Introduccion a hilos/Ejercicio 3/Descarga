@@ -1,19 +1,23 @@
 public class Descarga extends HiloUtil{
     int numero;
     public Descarga(int numero){
-     this.numero=numero;
+        this.numero=numero;
+        System.out.println("Descarga "+numero+" iniciada");
     }
     int porcentaje=0;
     @Override
-    public void run(){
+    public void run()
+    {
         while (true){
             try {
-                if (porcentaje>=100){System.out.println("Descarga finalizada en D1");Main.verificacion=1;break;}
+                if (porcentaje>=100 && Main.verificacion==0){Main.verificacion=numero;break;}
                 else {
-                    System.out.println("D1 Porcentaje: "+porcentaje);
+                    if (Main.verificacion==0){
+                    System.out.println("D"+numero+" Porcentaje: "+porcentaje);
                     porcentaje+=NumeroRandom();
-                    Thread.sleep(300);}
+                    Thread.sleep(300);}else {break;}}
             }catch (Exception e){System.out.println("Error: " +e);}
 
-        }}
+        }
+    }
 }
