@@ -1,14 +1,25 @@
 public class Main{
 
-    public static int verificacion=0;
+    public static volatile int verificacion=0;
     public static void main(String[] args) {
         Thread d1 = new Thread(new Descarga(1));
         Thread d2 = new Thread(new Descarga(2));
         Thread d3 = new Thread(new Descarga(3));
-        while (verificacion!=0){
-            d1.start();
-            d2.start();
-            d3.start();
+        d1.start();
+        d2.start();
+        d3.start();
+        try {
+            d1.join();
+            d2.join();
+            d3.join();
+        } catch (InterruptedException e) {
+            System.out.println("Hilo principal interrumpido.");
         }
+        switch (verificacion){
+            case 1:System.out.println("Descarga 1 termino primero");break;
+            case 2:System.out.println("Descarga 2 termino primero");break;
+            case 3:System.out.println("Descarga 3 termino primero");break;
+        }
+        System.exit(0);
     }
 }
