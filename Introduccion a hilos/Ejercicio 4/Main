@@ -1,0 +1,31 @@
+public class Main{
+
+    public static volatile int verificacion=0;
+    public static void main(String[] args) {
+        Thread Mario = new Thread(new Personaje(1, "Mario"));
+        Thread MarioVerde = new Thread(new Personaje(2, "Mario verde"));
+        Thread MarioVerdeMalo = new Thread(new Personaje(3, "Mario verde malo"));
+        Thread Caballo = new Thread(new Personaje(4, "Caballo"));
+        Mario.start();
+        MarioVerde.start();
+        MarioVerdeMalo.start();
+        Caballo.start();
+
+        try {
+            Mario.join();
+            MarioVerde.join();
+            MarioVerdeMalo.join();
+            Caballo.join();
+
+        } catch (InterruptedException e) {
+            System.out.println("Hilo principal interrumpido.");
+        }
+        switch (verificacion){
+            case 1:System.out.println("Mario termino primero");break;
+            case 2:System.out.println("Mario verde termino primero");break;
+            case 3:System.out.println("Mario verde malo termino primero");break;
+            case 4:System.out.println("el caballo termino primero");break;
+        }
+        System.exit(0);
+    }
+}
