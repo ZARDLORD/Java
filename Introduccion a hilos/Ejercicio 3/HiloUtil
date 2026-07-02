@@ -1,0 +1,13 @@
+import java.util.Random;
+
+public class HiloUtil implements Runnable {
+    public HiloUtil()
+    {
+        System.out.println("Hilo util creado");
+    }
+    public int NumeroRandom(){
+        int numero = new Random().nextInt(11);
+        return numero;
+    }
+    public void run(){}
+}
