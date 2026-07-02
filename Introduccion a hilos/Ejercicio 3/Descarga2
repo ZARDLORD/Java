@@ -1,0 +1,19 @@
+import java.util.Random;
+
+public class Descarga2 extends Thread{
+    public Descarga2(){
+        System.out.println("Descarga2 iniciada.");
+
+    }
+    public static Random random = new Random();
+    int porcentaje=0;
+    public void run(){
+        while (true){
+        try {
+            porcentaje+=random.nextInt(10);
+            System.out.println("D2 Porcentaje: "+porcentaje);
+            Descarga1.sleep(1000);
+        }catch (Exception e){System.out.println("Error: " +e);}
+
+    }}
+}
