@@ -1,0 +1,10 @@
+public class Util {
+    public Util(){}
+    public static int VerificarInt(String x){
+        try {
+            int numero = Integer.parseInt(x);
+            return numero;
+        }catch (Exception e){System.out.println(" Error "+e);}
+        return 0;
+    }
+}
