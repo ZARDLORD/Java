@@ -1,0 +1,47 @@
+import java.util.Scanner;
+
+public class Main {
+    static Scanner read = new Scanner(System.in);
+    static HiloCronometro H1;
+    static HiloCronometro H2;
+    static HiloCronometro H3;
+    static HiloCronometro H4;
+    static HiloCronometro H5;
+    public static void main(String[] args)
+    {
+        Menu();
+
+    }
+    public static void VerHuevos(){
+        if (H1!=null){System.out.println("Huevo pasado por agua: ");H1.MostrarCronometro();}
+        if (H2!=null){System.out.println("Huevo mollet: ");H2.MostrarCronometro();}
+        if (H3!=null){System.out.println("Huevo escalfado (o poché): ");H3.MostrarCronometro();}
+        if (H4!=null){System.out.println("Huevo duro (o cocido): ");H4.MostrarCronometro();}
+        if (H5!=null){System.out.println("Huevo bien cocido (o clasico): ");H5.MostrarCronometro();}
+    }
+    public static void Menu()
+    {
+        int opcionmenu;
+        do {
+            System.out.println("----TIEMPOS DE COCCION-----" +
+                    "\n1) Huevo pasado por agua" +
+                    "\n2) Huevo mollet" +
+                    "\n3) Huevo escalfado (o poché)" +
+                    "\n4) Huevo duro (o cocido)" +
+                    "\n5) Huevo bien cocido" +
+                    "\n6) Mostrar huevo" +
+                    "\n7) Salir");
+            opcionmenu = Util.VerificarInt(read.next());
+            switch (opcionmenu){
+                case 1: H1 = new HiloCronometro(3);H1.start();break;
+                case 2: H2 = new HiloCronometro(5);H2.start();break;
+                case 3: H3 = new HiloCronometro(4);H3.start();break;
+                case 4: H4 = new HiloCronometro(10);H4.start();break;
+                case 5: H5 = new HiloCronometro(12);H5.start();break;
+                case 6:VerHuevos();break;
+                default:System.out.println("Seleeccione una opcion del menu");break;
+            }
+        }while (opcionmenu!=7);
+
+    }
+}
