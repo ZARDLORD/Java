@@ -16,3 +16,48 @@ public class Main{
         Corredor.MostrarCorredores();
     }
 }
+3 hilos corredores 
+
+main
+elejir corredor--->
+crear vehiculo ---> vehiculo class
+				->Auto
+				->Moto
+tipo de carrera->aleatorio ->Random runners
+	       ->clasico   ->picked runners ->Lista de corredores -> corredores class
+									->String nombre
+									->int Peso        //el peso determina la velocidad, cad apunto de peso dse resta 3m/s a la Velocidad del corredor
+									->int Drift	  //cada 1s FuncionBoost()->por cada punto extra a 10, 5% de boost (avanza 10m)
+									->int Estabilidad //cada 1s FuncionCaerse()->por cada punto menor a 10, 5% de caerse (caerse atrasa 5m)
+elejir mapa (entre 3 ) -> mapa class
+				->int CantVueltas
+
+void Carrera()
+{
+	corredor avanza aleatoriamente
+	ResultadoCarrera()
+}
+void ResultadoCarrera()
+{
+	//mostrar ganador
+	//orden de llegada y tiempo tardado
+	//la configuracion de cada corredor
+}
+
+Datos-----
+Objetos de vehiculos	estabilidad,peso,drift
+	Rueda pequeña	-1,-2,+2
+	Rueda mediana	0,+1,+1
+	Rueda grande	+2,´2,0
+
+	Chasis liviano  -2,+1,+1
+	Chasis medio	+1,0,+1
+	Chasis pesado	+2,+2,0
+
+Vehiculos 
+		Auto	10,10,5
+		Moto	5,5,8
+
+Corredores:
+nombre,velocidad,peso,CapaicidadDeDrift
+Mario,40m/s,3,1
