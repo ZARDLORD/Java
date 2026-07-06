@@ -1,0 +1,36 @@
+public class Vehiculo {
+    private int estabilidad,peso,drift;
+
+    public Vehiculo(int estabilidad,int peso,int drift)
+    {
+        Vehiculo Auto = new Vehiculo(10,10,5);
+        Vehiculo Moto = new Vehiculo(5,5,8);
+        this.estabilidad=estabilidad;
+        this.peso=peso;
+        this.drift=drift;
+    }
+
+    public int getEstabilidad() {
+        return estabilidad;
+    }
+
+    public void setEstabilidad(int estabilidad) {
+        this.estabilidad = estabilidad;
+    }
+
+    public int getPeso() {
+        return peso;
+    }
+
+    public void setPeso(int peso) {
+        this.peso = peso;
+    }
+
+    public int getDrift() {
+        return drift;
+    }
+
+    public void setDrift(int drift) {
+        this.drift = drift;
+    }
+}
