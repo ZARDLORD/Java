@@ -1,0 +1,18 @@
+import java.nio.channels.SelectableChannel;
+
+public class Main{
+    public static void main(String[] args)
+    {
+        Menu();
+        SeleccionarCorredr();
+    }
+    static void Menu() {
+        System.out.println("------/MARIO KART 2\\------" +
+                "(No aprobado por Nintendo)");
+    }
+    static void SeleccionarCorredr()
+    {
+        System.out.println("Seleccione a su corredor");
+        Corredor.MostrarCorredores();
+    }
+}
