@@ -1,0 +1,16 @@
+public class Tramo {
+    private char caracter;
+    private int posicion;
+
+    public Tramo(char caracter, int posicion) {
+        this.caracter = caracter;
+        this.posicion = posicion;
+    }
+    public char getCaracter() {
+        return caracter;
+    }
+
+    public int getPosicion() {
+        return posicion;
+    }
+}
