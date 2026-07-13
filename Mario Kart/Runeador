@@ -1,0 +1,66 @@
+// REEMPLAZA TU CLASE RUNEADOR POR ESTA versión corregida
+public class Runeador implements Runnable {
+    private Personaje personaje;
+    private int longitudMeta; // Longitud total a recorrer (Largo del mapa * vueltas)
+    private int posicionActual = 0;
+    private int tiempoTranscurrido = 0;
+    private boolean haTerminado = false;
+
+    public Runeador(Personaje personaje, int longitudMeta) {
+        this.personaje = personaje;
+        this.longitudMeta = longitudMeta;
+    }
+
+    @Override
+    public void run() {
+        String nombrePiloto = personaje.getCorredor().getNombre();
+        System.out.println("¡" + nombrePiloto + " ha comenzado la carrera!");
+
+        // El bucle simula el paso del tiempo (segundo a segundo) hasta llegar a la meta
+        while (posicionActual < longitudMeta) {
+            try {
+                Thread.sleep(1000); // Espera 1 segundo real entre iteraciones
+                tiempoTranscurrido++;
+
+                // 1. Calcular velocidad base (Top speed afectada por el peso)
+                int velocidadMax = Personaje.EjecutarPeso(personaje);
+                // Evitamos velocidades negativas o cero si el personaje es extremadamente pesado
+                if (velocidadMax <= 0) velocidadMax = 1;
+
+                int avanceEsteSegundo = Util.NumeroRandomRango(1, velocidadMax);
+                posicionActual += avanceEsteSegundo;
+
+                // 2. Evaluar probabilidad de Caída (Estabilidad)
+                int probabilidadCaer = Personaje.EjecutarEstabilidad(personaje);
+                if (Util.NumeroRandomRango(1, 100) <= probabilidadCaer) {
+                    posicionActual -= 5;
+                    System.out.println("⚠️ " + nombrePiloto + " se ha caído! (-5 metros)");
+                }
+
+                // 3. Evaluar probabilidad de Boost (Drift)
+                int probabilidadBoost = Personaje.EjecutarDrift(personaje);
+                if (Util.NumeroRandomRango(1, 100) <= probabilidadBoost) {
+                    posicionActual += 10;
+                    System.out.println("⚡ " + nombrePiloto + " metió un súper Drift! (+10 metros)");
+                }
+
+                // Asegurar que la posición no sea menor a cero por penalizaciones iniciales
+                if (posicionActual < 0) posicionActual = 0;
+
+                // Informar progreso actual en consola
+                System.out.println("[" + tiempoTranscurrido + "s] " + nombrePiloto + " -> Posición: " + posicionActual + "m / " + longitudMeta + "m");
+            } catch (InterruptedException e) {
+                System.out.println("El hilo de " + nombrePiloto + " fue interrumpido.");
+                return;
+            }
+        }
+
+        haTerminado = true;
+        System.out.println("🏁 ¡" + nombrePiloto + " CRUZÓ LA META! Tiempo total: " + tiempoTranscurrido + " segundos.");
+    }
+
+    // Getters útiles para que Main pueda revisar los resultados finales
+    public int getTiempoTranscurrido() { return tiempoTranscurrido; }
+    public int getPosicionActual() { return posicionActual; }
+    public boolean isHaTerminado() { return haTerminado; }
+}
