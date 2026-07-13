@@ -1,6 +1,9 @@
 public class Mapa {
     private int vueltas;
-    public Mapa(int vueltas){this.vueltas=vueltas;}
+    private Tramo[][] mapa;
+    public Mapa(int vueltas,Tramo[][] mapa){
+        this.vueltas=vueltas;
+        this.mapa=mapa;}
 
     public int getVueltas() {
         return vueltas;
@@ -8,6 +11,14 @@ public class Mapa {
 
     public void setVueltas(int vueltas) {
         this.vueltas = vueltas;
+    }
+
+    public Tramo[][] getMapa() {
+        return mapa;
+    }
+
+    public void setMapa(Tramo[][] mapa) {
+        this.mapa = mapa;
     }
 
     // --- MAPA 1: POCAS CURVAS ---
