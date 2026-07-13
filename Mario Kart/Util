@@ -24,5 +24,15 @@ public class Util {
         int numero = minimo+random.nextInt((maximo - minimo) + 1);
         return numero;
     }
+    static public boolean Porcentaje(int porcentaje)
+    {
+        int aleatorio = random.nextInt(100)+1;
+        if (porcentaje>=aleatorio)
+        {
+            return true;
+        }
+        return false;
+
+    }
 
 }
