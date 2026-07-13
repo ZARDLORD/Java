@@ -1,13 +1,25 @@
-public class Vehiculo {
-    private int estabilidad,peso,drift;
+import java.util.ArrayList;
+import java.util.List;
 
-    public Vehiculo(int estabilidad,int peso,int drift)
+public class Vehiculo{
+    private String tipo;
+    private int estabilidad,peso,drift;
+    static List<Vehiculo> Vehiculos = new ArrayList<>();
+    public Vehiculo(int estabilidad,int peso, int drift)
     {
-        Vehiculo Auto = new Vehiculo(10,10,5);
-        Vehiculo Moto = new Vehiculo(5,5,8);
+        this(null, estabilidad, peso, drift);
+    }
+    public Vehiculo(String tipo,int estabilidad,int peso,int drift)
+    {
         this.estabilidad=estabilidad;
         this.peso=peso;
         this.drift=drift;
+        this.tipo=tipo;
+    }
+    public static void InicializarVehiculos()
+    {
+        Vehiculos.add(new Vehiculo("Auto",10,10,5));
+        Vehiculos.add(new Vehiculo("Moto",5,5,8));
     }
 
     public int getEstabilidad() {
@@ -30,7 +42,47 @@ public class Vehiculo {
         return drift;
     }
 
+    public String getTipo() {
+        return tipo;
+    }
+
     public void setDrift(int drift) {
         this.drift = drift;
+    }
+    public static void MostrarVehiculos()
+    {
+        for (int i=0;i<Vehiculos.size();i++)
+        {
+            System.out.print(i+1+")");
+            System.out.println(MostrarVehiculo(Vehiculos.get(i)));
+        }
+    }
+    public static String MostrarVehiculo(Vehiculo x){
+        return " Tipo: "+x.tipo+
+                " Estabilidad: "+x.estabilidad+
+                " Peso: "+x.peso+
+                " Capacidad de Drift: "+x.drift;
+    }
+    // REEMPLAZA ESTE METODO DENTRO DE LA CLASE Vehiculo
+    public static Vehiculo VehiculoAleatorio() {
+        // 1. Elegimos el molde original de la lista (Auto o Moto)
+        Vehiculo molde = Vehiculos.get(Util.NumeroRandomRango(0, 1));
+
+        // 2. CREAMOS UN CLON NUEVO en memoria para no romper el molde original
+        Vehiculo VehiculoRandom = new Vehiculo(molde.getTipo(), molde.getEstabilidad(), molde.getPeso(), molde.getDrift());
+
+        // 3. Ahora sí modificamos el clon de forma segura con las ruedas random
+        Objeto ruedaRandom = Objeto.Objetos.get(Util.NumeroRandomRango(0, 2));
+        VehiculoRandom.setEstabilidad(VehiculoRandom.getEstabilidad() + ruedaRandom.getEstabilidad());
+        VehiculoRandom.setPeso(VehiculoRandom.getPeso() + ruedaRandom.getPeso());
+        VehiculoRandom.setDrift(VehiculoRandom.getDrift() + ruedaRandom.getDrift());
+
+        // 4. Modificamos el clon con el chasis random
+        Objeto chasisRandom = Objeto.Objetos.get(Util.NumeroRandomRango(3, 5));
+        VehiculoRandom.setEstabilidad(VehiculoRandom.getEstabilidad() + chasisRandom.getEstabilidad());
+        VehiculoRandom.setPeso(VehiculoRandom.getPeso() + chasisRandom.getPeso());
+        VehiculoRandom.setDrift(VehiculoRandom.getDrift() + chasisRandom.getDrift());
+
+        return VehiculoRandom;
     }
 }
