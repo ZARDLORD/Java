@@ -1,0 +1,48 @@
+public class Mapa {
+    private int vueltas;
+    public Mapa(int vueltas){this.vueltas=vueltas;}
+
+    public int getVueltas() {
+        return vueltas;
+    }
+
+    public void setVueltas(int vueltas) {
+        this.vueltas = vueltas;
+    }
+
+    // --- MAPA 1: POCAS CURVAS ---
+    public static final Tramo[][] MAPA_POCAS_CURVAS = new Tramo[][]{
+            {new Tramo('S', 0),  new Tramo('═', 1),  new Tramo('═', 2),  new Tramo('═', 3),  new Tramo('═', 4),  new Tramo('═', 5),  new Tramo('═', 6),  new Tramo('╗', 7)},
+            {new Tramo('F', 27), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo('║', 8)},
+            {new Tramo('║', 26), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo('║', 9)},
+            {new Tramo('║', 25), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo('║', 10)},
+            {new Tramo('║', 24), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo('║', 11)},
+            {new Tramo('║', 23), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo('║', 12)},
+            {new Tramo('║', 22), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo('║', 13)},
+            {new Tramo('╚', 21), new Tramo('═', 20), new Tramo('═', 19), new Tramo('═', 18), new Tramo('═', 17), new Tramo('═', 16), new Tramo('═', 15), new Tramo('╝', 14)}
+    };
+
+    // --- MAPA 2: MUCHAS CURVAS ---
+    public static final Tramo[][] MAPA_MUCHAS_CURVAS = new Tramo[][]{
+            {new Tramo('S', 0),  new Tramo('═', 1),  new Tramo('═', 2),  new Tramo('═', 3),  new Tramo('═', 4),  new Tramo('═', 5),  new Tramo('═', 6),  new Tramo('╗', 7)},
+            {new Tramo('F', 36), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo('║', 8)},
+            {new Tramo('║', 35), new Tramo('╔', 14), new Tramo('═', 13), new Tramo('═', 12), new Tramo('═', 11), new Tramo('═', 10), new Tramo('═', 9),  new Tramo('╝', 8)},
+            {new Tramo('║', 34), new Tramo('║', 15), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo(' ', -1)},
+            {new Tramo('║', 33), new Tramo('╚', 16), new Tramo('═', 17), new Tramo('═', 18), new Tramo('═', 19), new Tramo('═', 20), new Tramo('═', 21), new Tramo('╗', 22)},
+            {new Tramo('║', 32), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo('║', 23)},
+            {new Tramo('╚', 31), new Tramo('═', 30), new Tramo('═', 29), new Tramo('═', 28), new Tramo('═', 27), new Tramo('═', 26), new Tramo('═', 25), new Tramo('╝', 24)},
+            {new Tramo(' ', 33), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo(' ', -1)}
+    };
+
+    // --- MAPA 3: EQUILIBRADO ---
+    public static final Tramo[][] MAPA_EQUILIBRADO = new Tramo[][]{
+            {new Tramo('S', 0),  new Tramo('═', 1),  new Tramo('═', 2),  new Tramo('═', 3),  new Tramo('╗', 4),  new Tramo(' ', -1), new Tramo(' ', -1), new Tramo(' ', -1)},
+            {new Tramo('F', 29), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo('║', 5),  new Tramo(' ', -1), new Tramo(' ', -1), new Tramo(' ', -1)},
+            {new Tramo('║', 28), new Tramo(' ', -1), new Tramo('╔', 7),  new Tramo('═', 6),  new Tramo('╝', 5),  new Tramo(' ', -1), new Tramo(' ', -1), new Tramo(' ', -1)},
+            {new Tramo('║', 27), new Tramo(' ', -1), new Tramo('║', 8),  new Tramo(' ', -1), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo(' ', -1)},
+            {new Tramo('║', 26), new Tramo(' ', -1), new Tramo('╚', 9),  new Tramo('═', 10), new Tramo('═', 11), new Tramo('╗', 12), new Tramo(' ', -1), new Tramo(' ', -1)},
+            {new Tramo('║', 25), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo('║', 13), new Tramo(' ', -1), new Tramo(' ', -1)},
+            {new Tramo('║', 24), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo(' ', -1), new Tramo('╚', 14), new Tramo('═', 15), new Tramo('╗', 16)},
+            {new Tramo('╚', 23), new Tramo('═', 22), new Tramo('═', 21), new Tramo('═', 20), new Tramo('═', 19), new Tramo('═', 18), new Tramo('═', 17), new Tramo('╝', 16)}
+    };
+}
