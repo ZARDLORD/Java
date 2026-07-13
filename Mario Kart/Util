@@ -1,0 +1,28 @@
+import java.util.Random;
+import java.util.Scanner;
+
+public class Util {
+    static Random random = new Random();
+    static Scanner read = new Scanner(System.in);
+    static public int VerificarInt(String x){
+        try {
+            int numero = Integer.parseInt(x);
+            return numero;
+        }catch (Exception e){System.out.println("Error: "+e+" registrando el Int, vuelva a ingresarlo");
+        x = read.nextLine();}
+        return -1;
+    }
+    static public int VerificarRango(int x, int minimo, int maximo)
+    {
+        do {
+            if (x>=minimo&&x<=maximo){return x;}
+            else {System.out.println("El numero "+x+" no entra en el rango");
+            x=VerificarInt(read.nextLine());}
+        }while (true);
+    }
+    static public int NumeroRandomRango(int minimo, int maximo){
+        int numero = minimo+random.nextInt((maximo - minimo) + 1);
+        return numero;
+    }
+
+}
