@@ -1,63 +1,106 @@
 import java.nio.channels.SelectableChannel;
+import java.util.Random;
+import java.util.Scanner;
 
 public class Main{
+    static Random random = new Random();
+    static Scanner read = new Scanner(System.in);
+    static Corredor CorredorElegido;
+    static Vehiculo VehiculoElegido;
+    static Personaje pj;
+    static Personaje Rival1;
+    static Personaje Rival2;
+    static Personaje Rival3;
     public static void main(String[] args)
     {
         Menu();
         SeleccionarCorredr();
+        SeleccionarVehiculo();
+        PersonalizarVeiculo();
+        IniciarPersonaje();
+        ElejirTipoDeCarrera();
     }
     static void Menu() {
         System.out.println("------/MARIO KART 2\\------" +
                 "(No aprobado por Nintendo)");
     }
-    static void SeleccionarCorredr()
-    {
+    static void SeleccionarCorredr() {
+        Corredor.InicializarCorredores();
         System.out.println("Seleccione a su corredor");
         Corredor.MostrarCorredores();
+        int opcion = 1;//Util.VerificarRango(Util.VerificarInt(read.nextLine()),1,5);//PREMADE
+        CorredorElegido = Corredor.corredores.get(opcion-1);
+        System.out.println("elejiste al corredor "+CorredorElegido.getNombre()+"!");
+    }
+    static void SeleccionarVehiculo(){
+        Vehiculo.InicializarVehiculos();
+        System.out.println("Seleccione el tipo de vehiculo a personalizar: ");
+        Vehiculo.MostrarVehiculos();
+        int opcion = 1;//Util.VerificarRango(Util.VerificarInt(read.nextLine()),1,2); PREMADE
+        VehiculoElegido=Vehiculo.Vehiculos.get(opcion-1);
+        System.out.println("elejiste al Vehiculo "+VehiculoElegido.getTipo()+"!");
+    }
+    static void PersonalizarVeiculo(){
+        Objeto.InicializarObjetos();
+        System.out.println("Momento de personalizar tu "+VehiculoElegido.getTipo().toString()+"!");
+
+        System.out.println("Ingese que tipo de rueda quiere:");
+        Objeto.MostrarRuedas();
+        //Objeto RuedaElejida = Objeto.Objetos.get(Util.VerificarRango(Util.VerificarInt(read.nextLine()),1,3);
+        Objeto RuedaElejida = Objeto.Objetos.get(0); //PREMADE
+        VehiculoElegido.setEstabilidad(VehiculoElegido.getEstabilidad()+RuedaElejida.getEstabilidad());
+        VehiculoElegido.setPeso(VehiculoElegido.getPeso()+ RuedaElejida.getPeso());
+        VehiculoElegido.setDrift(VehiculoElegido.getDrift()+ RuedaElejida.getDrift());
+        System.out.println("Elejiste la: "+RuedaElejida.getNombre()+"!");
+
+        System.out.println("Ingese que tipo de chasis quiere:");
+        Objeto.MostrarChasis();
+        //Objeto ChasisElejido =  Objeto.Objetos.get(Util.VerificarRango(Util.VerificarInt(read.nextLine()),4,6);
+        Objeto ChasisElejido = Objeto.Objetos.get(4); //PREMADE
+        VehiculoElegido.setEstabilidad(VehiculoElegido.getEstabilidad()+ChasisElejido.getEstabilidad());
+        VehiculoElegido.setPeso(VehiculoElegido.getPeso()+ ChasisElejido.getPeso());
+        VehiculoElegido.setDrift(VehiculoElegido.getDrift()+ ChasisElejido.getDrift());
+        System.out.println("Elejiste la: "+ChasisElejido.getNombre()+"!");
+
+        System.out.println("\nEstadisticas finales del Vehículo: " +
+                "\nEstabilidad: "+VehiculoElegido.getEstabilidad()+
+                "\nPeso: "+VehiculoElegido.getPeso()+
+                "\nDrift: "+VehiculoElegido.getDrift());
+    }
+    static void IniciarPersonaje(){
+        pj = new Personaje(CorredorElegido,VehiculoElegido);
+    }
+    static void ElejirTipoDeCarrera(){
+        System.out.println("Elija si desea jugar contra corredores seleccionados o aleatorios:" +
+                "\n1)Aleatorios" +
+                "\n2)Seleccionados");
+        int opcion = 2;//Util.VerificarRango(Util.VerificarInt(read.nextLine()),1,2); PREMADE
+        switch (opcion){
+            case 1:
+                GenerarCorredoresAleatorios();
+                break;
+            case 2:
+                SeleccionarCorredoresMenu();
+                break;
+        }
+    }
+    static void GenerarCorredoresAleatorios(){
+        Rival1 = new Personaje(Corredor.corredores.get(Util.NumeroRandomRango(1,5)),Vehiculo.VehiculoAleatorio());
+        Rival2 = new Personaje(Corredor.corredores.get(Util.NumeroRandomRango(1,5)),Vehiculo.VehiculoAleatorio());
+        Rival3 = new Personaje(Corredor.corredores.get(Util.NumeroRandomRango(1,5)),Vehiculo.VehiculoAleatorio());
+    }
+    static void SeleccionarCorredoresMenu(){
+        System.out.println("Seleccione a los 3 corredores rivales: ");
+        int[] opciones={-1,-1,-1};
+        while (true)
+        {
+            for(int i =0;i<3;i++){
+            Corredor.MostrarCorredores();
+            opciones[i]=Util.VerificarRango(Util.VerificarInt(read.nextLine()),1,5);}
+            break;
+        }
+        Rival1 =new Personaje(Corredor.corredores.get(opciones[0]),Vehiculo.VehiculoAleatorio());
+        Rival2 =new Personaje(Corredor.corredores.get(opciones[1]),Vehiculo.VehiculoAleatorio());
+        Rival3 =new Personaje(Corredor.corredores.get(opciones[2]),Vehiculo.VehiculoAleatorio());
     }
 }
-3 hilos corredores 
-
-main
-elejir corredor--->
-crear vehiculo ---> vehiculo class
-				->Auto
-				->Moto
-tipo de carrera->aleatorio ->Random runners
-	       ->clasico   ->picked runners ->Lista de corredores -> corredores class
-									->String nombre
-									->int Peso        //el peso determina la velocidad, cad apunto de peso dse resta 3m/s a la Velocidad del corredor
-									->int Drift	  //cada 1s FuncionBoost()->por cada punto extra a 10, 5% de boost (avanza 10m)
-									->int Estabilidad //cada 1s FuncionCaerse()->por cada punto menor a 10, 5% de caerse (caerse atrasa 5m)
-elejir mapa (entre 3 ) -> mapa class
-				->int CantVueltas
-
-void Carrera()
-{
-	corredor avanza aleatoriamente
-	ResultadoCarrera()
-}
-void ResultadoCarrera()
-{
-	//mostrar ganador
-	//orden de llegada y tiempo tardado
-	//la configuracion de cada corredor
-}
-
-Datos-----
-Objetos de vehiculos	estabilidad,peso,drift
-	Rueda pequeña	-1,-2,+2
-	Rueda mediana	0,+1,+1
-	Rueda grande	+2,´2,0
-
-	Chasis liviano  -2,+1,+1
-	Chasis medio	+1,0,+1
-	Chasis pesado	+2,+2,0
-
-Vehiculos 
-		Auto	10,10,5
-		Moto	5,5,8
-
-Corredores:
-nombre,velocidad,peso,CapaicidadDeDrift
-Mario,40m/s,3,1
