@@ -1,0 +1,46 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class Objeto extends Vehiculo{
+    private String nombre,tipo;
+    static List<Objeto> Objetos = new ArrayList<>();
+    public Objeto(String nombre,String tipo,int estabilidad, int peso, int drift){
+        super(estabilidad,peso,drift);
+        this.nombre=nombre;
+        this.tipo=tipo;
+    }
+    public static void InicializarObjetos(){
+        Objetos.add(new Objeto("Rueda chica","Rueda",-1,-2,2));
+        Objetos.add(new Objeto("Rueda mediana","Rueda",0,1,1));
+        Objetos.add(new Objeto("Rueda grande","Rueda",2,2,0));
+
+        Objetos.add(new Objeto("Chasis liviano","Chasis",-2,1,1));
+        Objetos.add(new Objeto("Chasis tambaleante","Chasis",1,0,1));
+        Objetos.add(new Objeto("Chasis Pesada","Chasis",2,2,0));
+    }
+    static public void MostrarRuedas(){
+        for (int i =0;i< Objetos.size();i++) {
+            if (Objetos.get(i).tipo.toString().equals("Rueda")){
+                ;System.out.print(i+1+")");
+            System.out.println(MostrarObjeto(Objetos.get(i)));}
+            }
+        }
+        static public void MostrarChasis(){
+            for (int i =0;i< Objetos.size();i++) {
+                if (Objetos.get(i).tipo.toString().equals("Chasis")){
+                    ;System.out.print(i+1+")");
+                    System.out.println(MostrarObjeto(Objetos.get(i)));}
+            }
+        }
+    public static String MostrarObjeto(Objeto x){ //el print muestra los ints como 0, los gets hacen referencia a otra ocsa seguro
+        return "Nombre: "+x.nombre+
+                " Tipo: "+x.tipo+
+                " Estbabilidad: "+x.getEstabilidad()+
+                " Peso: "+x.getPeso()+
+                " Capacidad de drift: "+x.getDrift();
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+}
