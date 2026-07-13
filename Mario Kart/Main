@@ -1,4 +1,3 @@
-import java.nio.channels.SelectableChannel;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -11,6 +10,9 @@ public class Main{
     static Personaje Rival1;
     static Personaje Rival2;
     static Personaje Rival3;
+    static Mapa MapaElejido;
+    static Runeador HiloRuneador;
+    //static HiloCarrera Hilo = new HiloCarrera(HiloRuneador);
     public static void main(String[] args)
     {
         Menu();
@@ -19,6 +21,8 @@ public class Main{
         PersonalizarVeiculo();
         IniciarPersonaje();
         ElejirTipoDeCarrera();
+        ElejirMapaYVueltas();
+        CorrerCarrera();
     }
     static void Menu() {
         System.out.println("------/MARIO KART 2\\------" +
@@ -89,18 +93,61 @@ public class Main{
         Rival2 = new Personaje(Corredor.corredores.get(Util.NumeroRandomRango(1,5)),Vehiculo.VehiculoAleatorio());
         Rival3 = new Personaje(Corredor.corredores.get(Util.NumeroRandomRango(1,5)),Vehiculo.VehiculoAleatorio());
     }
-    static void SeleccionarCorredoresMenu(){
+    static void SeleccionarCorredoresMenu() {
         System.out.println("Seleccione a los 3 corredores rivales: ");
-        int[] opciones={-1,-1,-1};
-        while (true)
-        {
-            for(int i =0;i<3;i++){
-            Corredor.MostrarCorredores();
-            opciones[i]=Util.VerificarRango(Util.VerificarInt(read.nextLine()),1,5);}
+        int[] opciones = {-1, -1, -1};
+        while (true) {
+            for (int i = 0; i < 3; i++) {
+                Corredor.MostrarCorredores();
+                //opciones[i]=Util.VerificarRango(Util.VerificarInt(read.nextLine()),1,5)-1;}
+                opciones = new int[]{1, 2, 3}; //PREMADE
+            }
+            Rival1 = new Personaje(Corredor.corredores.get(opciones[0]), Vehiculo.VehiculoAleatorio());
+            Rival2 = new Personaje(Corredor.corredores.get(opciones[1]), Vehiculo.VehiculoAleatorio());
+            Rival3 = new Personaje(Corredor.corredores.get(opciones[2]), Vehiculo.VehiculoAleatorio());
             break;
         }
-        Rival1 =new Personaje(Corredor.corredores.get(opciones[0]),Vehiculo.VehiculoAleatorio());
-        Rival2 =new Personaje(Corredor.corredores.get(opciones[1]),Vehiculo.VehiculoAleatorio());
-        Rival3 =new Personaje(Corredor.corredores.get(opciones[2]),Vehiculo.VehiculoAleatorio());
+    }
+    static void ElejirMapaYVueltas(){
+        System.out.println("Seleccione cualquiera de los 3 mapas: " +
+                "\n1)Mapa con pocas curvas" +
+                "\n2)Mapa con muchas curvas" +
+                "\n3)Mapa Equilibrado");
+        //int opcion= Util.VerificarRango(Util.VerificarInt(read.nextLine()),1,3);
+        int opcion =1; //PREMADE
+        System.out.println("Eljija la cantidad de vueltas (1 a 3)");
+        //int vueltasMapa= Util.VerificarRango(Util.VerificarInt(read.nextLine()),1,3);
+        int vueltasMapa = 1; //PREMADE
+        switch (opcion){
+            case 1:MapaElejido=new Mapa(vueltasMapa,Mapa.MAPA_POCAS_CURVAS);
+            case 2:MapaElejido=new Mapa(vueltasMapa,Mapa.MAPA_MUCHAS_CURVAS);
+            case 3:MapaElejido=new Mapa(vueltasMapa, Mapa.MAPA_EQUILIBRADO);
+        }
+    }
+    static void CorrerCarrera() {
+        System.out.println("\n--- ¡CONTEO INICIAL: 3... 2... 1... YA! ---");
+
+        // 1. Calculamos la longitud del circuito seleccionado (ej: 28 tramos * cantidad de vueltas)
+        // Para simplificar ahora, supongamos que cada tramo equivale a 10 metros en tu simulación
+        int totalTramosMapa = 28; // Puedes automatizar esto mapeando el MapaElejido.getMapa()
+        int metrosMetaTOTAL = totalTramosMapa * 10 * MapaElejido.getVueltas();
+
+        // 2. Creamos los "ejecutables" (Runnable) para cada personaje
+        Runeador p1Cosa = new Runeador(pj, metrosMetaTOTAL);
+        Runeador r1Cosa = new Runeador(Rival1, metrosMetaTOTAL);
+        Runeador r2Cosa = new Runeador(Rival2, metrosMetaTOTAL);
+        Runeador r3Cosa = new Runeador(Rival3, metrosMetaTOTAL);
+
+        // 3. Creamos los Hilos reales de los trabajadores del sistema operativo
+        Thread hiloPj = new Thread(p1Cosa);
+        Thread hiloR1 = new Thread(r1Cosa);
+        Thread hiloR2 = new Thread(r2Cosa);
+        Thread hiloR3 = new Thread(r3Cosa);
+
+        // 4. ¡LOS LANZAMOS EN PARALELO! El sistema operativo alternará su ejecución por segundo
+        hiloPj.start();
+        hiloR1.start();
+        hiloR2.start();
+        hiloR3.start();
     }
 }
