@@ -6,4 +6,40 @@ public class Personaje {
         this.corredor=corredor;
         this.vehiculo=vehiculo;
     }
+
+    public Corredor getCorredor() {
+        return corredor;
+    }
+
+    public void setCorredor(Corredor corredor) {
+        this.corredor = corredor;
+    }
+
+    public Vehiculo getVehiculo() {
+        return vehiculo;
+    }
+
+    public void setVehiculo(Vehiculo vehiculo) {
+        this.vehiculo = vehiculo;
+    }
+
+    static int EjecutarPeso(Personaje x)
+    {
+        return x.corredor.getVelocidad()-(x.vehiculo.getPeso()+x.corredor.getPeso());
+    }
+    static int EjecutarEstabilidad(Personaje x)
+    {
+        if(x.vehiculo.getEstabilidad()<10){
+            int porcentaje = (10-x.vehiculo.getEstabilidad())*5;
+            return porcentaje;
+        }return 0;
+    }
+    static int EjecutarDrift(Personaje x)
+    {
+        if(x.vehiculo.getDrift()+x.corredor.getCapacidaddedrift()>10){
+            int porcentaje = ((x.vehiculo.getDrift()+x.corredor.getCapacidaddedrift())-10)*5;
+            return porcentaje;
+        }return 0;
+
+    }
 }
