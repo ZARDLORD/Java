@@ -1,0 +1,9 @@
+public class Personaje {
+    private Corredor corredor;
+    private Vehiculo vehiculo;
+    public Personaje(){}
+    public Personaje(Corredor corredor, Vehiculo vehiculo){
+        this.corredor=corredor;
+        this.vehiculo=vehiculo;
+    }
+}
