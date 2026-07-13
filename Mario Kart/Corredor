@@ -1,32 +1,40 @@
 import java.util.ArrayList;
 import java.util.List;
-public class Corredor {
+public class Corredor{
     private String nombre;
     private int velocidad,peso,capacidaddedrift;
-
-    private static List <Corredor> corredores = new ArrayList<>();
+    static List <Corredor> corredores = new ArrayList<>();
     public Corredor(String nombre, int velocidad, int peso, int capacidaddedrift) {
-    corredores.add(Mario);
-    corredores.add(Rammus);
-    corredores.add(Franklin);
-    corredores.add(Nunu);
-    corredores.add(Turbo);}
-    Corredor Mario = new Corredor("Mario",40,3,1);
-    Corredor Rammus = new Corredor("Rammus",60,8,0);
-    Corredor Franklin = new Corredor("Franklin Clinton",50,6,4);
-    Corredor Nunu = new Corredor("Nunu y Willump",70,12,-4);
-    Corredor Turbo = new Corredor("Caracol Turbo",1,0,20);
+        this.nombre=nombre;
+        this.velocidad=velocidad;
+        this.peso=peso;
+        this.capacidaddedrift=capacidaddedrift;
+    }
+    public static void InicializarCorredores()
+    {
+        corredores.add(new Corredor("Mario",40,3,1));
+        corredores.add(new Corredor("Rammus",60,8,0));
+        corredores.add(new Corredor("Franklin Clinton",50,6,4));
+        corredores.add(new Corredor("Nunu y Willump",70,12,-4));
+        corredores.add(new Corredor("Caracol Turbo",1,0,20));
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
     public static void MostrarCorredores()
     {
-        for (Corredor c : corredores)
+        for (int i=0;i<corredores.size();i++)
         {
-            System.out.println(MostrarCorredor(c));
+            System.out.print(i+1+")");
+            System.out.println(MostrarCorredor(corredores.get(i)));
         }
     }
     public static String MostrarCorredor(Corredor x){
-                    return " Nombre: "+x.nombre+
-                           " Velocidad: "+x.velocidad+
-                           " Peso: "+x.peso+
-                           " Drift: "+x.capacidaddedrift;
+        return " Nombre: "+x.nombre+
+                " Velocidad: "+x.velocidad+
+                " Peso: "+x.peso+
+                " Habilidad de Drift: "+x.capacidaddedrift;
     }
 }
